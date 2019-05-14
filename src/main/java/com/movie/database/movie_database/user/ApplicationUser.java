@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
-public class User {
+public class ApplicationUser {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -17,12 +17,15 @@ public class User {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     private UUID id;
-    private String email;
+    private String username;
     private String password;
 
-    public User(UUID id, String email, String password) {
+    public ApplicationUser() {
+    }
+
+    public ApplicationUser(UUID id, String username, String password) {
         this.id = id;
-        this.email = email;
+        this.username = username;
         this.password = password;
     }
 
@@ -30,11 +33,24 @@ public class User {
         return id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return username;
     }
 
     public String getPassword() {
         return password;
     }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
 }

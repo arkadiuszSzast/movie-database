@@ -7,3 +7,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+security:
+  jwt:
+    expiration-time: 92000
+    secret: R88dSRdLC9nwxaNw
+    header-name: Authorization
+    header-prefix: Bearer
