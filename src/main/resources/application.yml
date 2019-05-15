@@ -13,3 +13,9 @@ security:
     secret: R88dSRdLC9nwxaNw
     header-name: Authorization
     header-prefix: Bearer
+
+cors:
+  allowed-methods: "*"
+  allowed-origins: "*"
+  allowed-headers: "*"
+  exposed-headers: Authorization,Content-Disposition

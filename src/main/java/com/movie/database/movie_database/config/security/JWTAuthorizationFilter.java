@@ -49,7 +49,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         return null;
     }
 
-
     private boolean isNotBearerHeader(String header) {
         return header == null || !header.startsWith(jwtProperties.getHeaderPrefix());
     }

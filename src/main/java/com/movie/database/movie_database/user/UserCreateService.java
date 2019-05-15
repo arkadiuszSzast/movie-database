@@ -6,17 +6,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserCreateService {
 
-    private final UserRepository userRepository;
+    private final ApplicationUserRepository applicationUserRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserCreateService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
+    public UserCreateService(ApplicationUserRepository applicationUserRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.applicationUserRepository = applicationUserRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public void create(ApplicationUser applicationUser) {
         var encryptedPassword = bCryptPasswordEncoder.encode(applicationUser.getPassword());
         applicationUser.setPassword(encryptedPassword);
-        userRepository.save(applicationUser);
+        applicationUserRepository.save(applicationUser);
     }
 }
