@@ -8,14 +8,17 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 security:
-  jwt:
-    expiration-time: 92000
-    secret: R88dSRdLC9nwxaNw
+  access-token:
+    expiration-time: 300000
+    secret: 4XUagJh9fZZrWDBfsEe6wmL3eC4765cL
     header-name: Authorization
-    header-prefix: Bearer
+  refresh-token:
+    expiration-time: 900000
+    secret: j6EMM6EMYFeMXfEPVnx5rgKm7xWxb77U
+    header-name: Refresh-token
 
 cors:
   allowed-methods: "*"
   allowed-origins: "*"
   allowed-headers: "*"
-  exposed-headers: Authorization,Content-Disposition
+  exposed-headers: Authorization,Content-Disposition,Refresh-token

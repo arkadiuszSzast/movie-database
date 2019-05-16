@@ -1,6 +1,8 @@
-package com.movie.database.movie_database.config.security;
+package com.movie.database.movie_database.config.security.filters;
 
-import io.jsonwebtoken.Jwts;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.movie.database.movie_database.config.security.jwt.AccessTokenProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,41 +17,29 @@ import java.util.ArrayList;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final JWTProperties jwtProperties;
+    private final AccessTokenProperties accessTokenProperties;
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager, JWTProperties jwtProperties) {
+    public JWTAuthorizationFilter(AuthenticationManager authManager, AccessTokenProperties accessTokenProperties) {
         super(authManager);
-        this.jwtProperties = jwtProperties;
+        this.accessTokenProperties = accessTokenProperties;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        var header = request.getHeader(jwtProperties.getHeaderName());
-
-        if (isNotBearerHeader(header)) {
-            chain.doFilter(request, response);
-            return;
-        }
-
         var authentication = getAuthentication(request);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
     }
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        var token = request.getHeader(jwtProperties.getHeaderName());
-        if (token != null) {
-            String user = Jwts.parser()
-                    .setSigningKey(jwtProperties.getSecret())
-                    .parseClaimsJws(token.replace(jwtProperties.getHeaderPrefix(), ""))
-                    .getBody()
-                    .getSubject();
-            return user != null ? new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>()) : null;
+        var token = request.getHeader(accessTokenProperties.getHeaderName());
+        try {
+            var user = JWT.require(Algorithm.HMAC256(accessTokenProperties.getSecret())).build()
+                    .verify(token).getSubject();
+            return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+        } catch (Exception e) {
+            System.out.println("Token expired");
+            return null;
         }
-        return null;
-    }
-
-    private boolean isNotBearerHeader(String header) {
-        return header == null || !header.startsWith(jwtProperties.getHeaderPrefix());
     }
 }

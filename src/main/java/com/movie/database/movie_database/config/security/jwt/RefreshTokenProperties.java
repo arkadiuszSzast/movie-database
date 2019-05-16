@@ -1,16 +1,15 @@
-package com.movie.database.movie_database.config.security;
+package com.movie.database.movie_database.config.security.jwt;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 
-@ConfigurationProperties("security.jwt")
+@ConfigurationProperties("security.refresh-token")
 @PropertySource("classpath:application.yml")
-public class JWTProperties {
+public class RefreshTokenProperties {
 
     private long expirationTime;
     private String secret;
     private String headerName;
-    private String headerPrefix;
 
     public long getExpirationTime() {
         return expirationTime;
@@ -34,13 +33,5 @@ public class JWTProperties {
 
     public void setHeaderName(String headerName) {
         this.headerName = headerName;
-    }
-
-    public String getHeaderPrefix() {
-        return headerPrefix;
-    }
-
-    public void setHeaderPrefix(String headerPrefix) {
-        this.headerPrefix = headerPrefix;
     }
 }

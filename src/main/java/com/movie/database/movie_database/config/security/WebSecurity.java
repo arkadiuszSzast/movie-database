@@ -1,5 +1,10 @@
 package com.movie.database.movie_database.config.security;
 
+import com.movie.database.movie_database.config.security.filters.JWTAuthenticationFilter;
+import com.movie.database.movie_database.config.security.filters.JWTAuthorizationFilter;
+import com.movie.database.movie_database.config.security.jwt.AccessTokenProperties;
+import com.movie.database.movie_database.config.security.jwt.JWTGenerateService;
+import com.movie.database.movie_database.config.security.jwt.RefreshTokenProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -9,22 +14,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
 
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private static final String SIGN_UP_URL = "/api/users/sign-up";
-    private static final String LOGIN_URL = "/login";
+    public static final String AUTH_REFRESH_URL = "/api/auth/refresh";
 
-    private final JWTProperties jwtProperties;
+    private final AccessTokenProperties accessTokenProperties;
+    private final RefreshTokenProperties refreshTokenProperties;
+    private final JWTGenerateService jwtGenerateService;
 
-    public WebSecurity(JWTProperties jwtProperties) {
-        this.jwtProperties = jwtProperties;
+    public WebSecurity(AccessTokenProperties accessTokenProperties,
+                       RefreshTokenProperties refreshTokenProperties,
+                       JWTGenerateService jwtGenerateService) {
+        this.accessTokenProperties = accessTokenProperties;
+        this.refreshTokenProperties = refreshTokenProperties;
+        this.jwtGenerateService = jwtGenerateService;
     }
 
     @Override
@@ -44,10 +50,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .antMatchers(HttpMethod.POST, AUTH_REFRESH_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtProperties))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), jwtProperties));
+                .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtGenerateService, accessTokenProperties, refreshTokenProperties))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), accessTokenProperties));
     }
 
     @Override
