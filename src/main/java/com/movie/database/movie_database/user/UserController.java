@@ -1,13 +1,11 @@
 package com.movie.database.movie_database.user;
 
 import com.movie.database.movie_database.config.security.jwt.RefreshTokenService;
+import com.movie.database.movie_database.user.model.ApplicationUser;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.security.PermitAll;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class UserController {

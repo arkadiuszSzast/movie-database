@@ -1,4 +1,4 @@
-package com.movie.database.movie_database.user;
+package com.movie.database.movie_database.user.model;
 
 import org.hibernate.annotations.GenericGenerator;
 

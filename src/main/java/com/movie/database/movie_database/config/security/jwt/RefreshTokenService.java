@@ -2,6 +2,8 @@ package com.movie.database.movie_database.config.security.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.movie.database.movie_database.config.security.jwt.exception.RefreshTokenExpiredException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -22,13 +24,21 @@ public class RefreshTokenService {
     }
 
     public ResponseEntity refreshToken(String oldRefreshToken) {
-        var username = JWT.require(Algorithm.HMAC256(refreshTokenProperties.getSecret())).build()
-                .verify(oldRefreshToken).getSubject();
+        var username = getSubject(oldRefreshToken);
         var accessToken = jwtGenerateService.getAccessToken(username);
         var refreshToken = jwtGenerateService.getRefreshToken(username);
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .header(accessTokenProperties.getHeaderName(), accessToken)
                 .header(refreshTokenProperties.getHeaderName(), refreshToken)
                 .build();
+    }
+
+    private String getSubject(String oldRefreshToken) {
+        try {
+            return JWT.require(Algorithm.HMAC256(refreshTokenProperties.getSecret())).build()
+                    .verify(oldRefreshToken).getSubject();
+        } catch (TokenExpiredException e) {
+            throw new RefreshTokenExpiredException();
+        }
     }
 }

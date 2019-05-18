@@ -1,6 +1,6 @@
 package com.movie.database.movie_database.config.security;
 
-import com.movie.database.movie_database.user.UserNotFoundException;
+import com.movie.database.movie_database.user.exception.UserNotFoundException;
 import com.movie.database.movie_database.user.ApplicationUserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

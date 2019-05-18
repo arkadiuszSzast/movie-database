@@ -1,5 +1,6 @@
 package com.movie.database.movie_database.user;
 
+import com.movie.database.movie_database.user.model.ApplicationUser;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

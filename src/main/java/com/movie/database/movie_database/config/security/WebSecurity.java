@@ -19,7 +19,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private static final String SIGN_UP_URL = "/api/users/sign-up";
-    public static final String AUTH_REFRESH_URL = "/api/auth/refresh";
+    private static final String AUTH_REFRESH_URL = "/api/auth/refresh";
 
     private final AccessTokenProperties accessTokenProperties;
     private final RefreshTokenProperties refreshTokenProperties;
@@ -45,7 +45,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin()
-                .loginProcessingUrl("/login")
                 .permitAll()
                 .and()
                 .authorizeRequests()
@@ -53,13 +52,23 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, AUTH_REFRESH_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtGenerateService, accessTokenProperties, refreshTokenProperties))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(), accessTokenProperties));
+                .addFilter(getJwtAuthenticationFilter())
+                .addFilter(getJWTAuthorizationFilter());
     }
 
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    private JWTAuthorizationFilter getJWTAuthorizationFilter() throws Exception {
+        return new JWTAuthorizationFilter(authenticationManager(), accessTokenProperties);
+    }
+
+    private JWTAuthenticationFilter getJwtAuthenticationFilter() throws Exception {
+        var jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager(), jwtGenerateService, accessTokenProperties, refreshTokenProperties);
+        jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
+        return jwtAuthenticationFilter;
     }
 }

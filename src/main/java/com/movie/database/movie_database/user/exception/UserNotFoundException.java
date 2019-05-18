@@ -1,4 +1,4 @@
-package com.movie.database.movie_database.user;
+package com.movie.database.movie_database.user.exception;
 
 public class UserNotFoundException extends UserException {
 

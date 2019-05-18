@@ -1,6 +1,6 @@
 package com.movie.database.movie_database.config.security;
 
-import com.movie.database.movie_database.user.ApplicationUser;
+import com.movie.database.movie_database.user.model.ApplicationUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
