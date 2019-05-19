@@ -1,6 +1,5 @@
-package com.movie.database.movie_database.user;
+package com.movie.database.movie_database.user.domain;
 
-import com.movie.database.movie_database.user.model.ApplicationUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

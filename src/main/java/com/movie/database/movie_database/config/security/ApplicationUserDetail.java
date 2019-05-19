@@ -1,11 +1,10 @@
 package com.movie.database.movie_database.config.security;
 
-import com.movie.database.movie_database.user.model.ApplicationUser;
+import com.movie.database.movie_database.user.domain.ApplicationUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.Collections;
 
 public class ApplicationUserDetail implements UserDetails {
 
@@ -25,7 +24,7 @@ public class ApplicationUserDetail implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.emptyList();
+        return applicationUser.getRoles();
     }
 
     @Override

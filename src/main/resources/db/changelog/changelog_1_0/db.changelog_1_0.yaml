@@ -2,3 +2,7 @@ databaseChangeLog:
   - include:
       file: db.create_application_user_1_0.yaml
       relativeToChangelogFile: true
+  - include:
+      file: db.create_role_1_0.yaml
+      relativeToChangelogFile: true
+

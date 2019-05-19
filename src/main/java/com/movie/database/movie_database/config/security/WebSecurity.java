@@ -20,6 +20,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private static final String SIGN_UP_URL = "/api/users/sign-up";
     private static final String AUTH_REFRESH_URL = "/api/auth/refresh";
+    private static final String LOGIN_URL = "/api/auth/login";
 
     private final AccessTokenProperties accessTokenProperties;
     private final RefreshTokenProperties refreshTokenProperties;
@@ -68,7 +69,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private JWTAuthenticationFilter getJwtAuthenticationFilter() throws Exception {
         var jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager(), jwtGenerateService, accessTokenProperties, refreshTokenProperties);
-        jwtAuthenticationFilter.setFilterProcessesUrl("/api/auth/login");
+        jwtAuthenticationFilter.setFilterProcessesUrl(LOGIN_URL);
         return jwtAuthenticationFilter;
     }
 }
