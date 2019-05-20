@@ -1,15 +1,18 @@
 package com.movie.database.movie_database.user;
 
 import com.movie.database.movie_database.config.security.jwt.RefreshTokenService;
+import com.movie.database.movie_database.support.recaptcha.RecaptchaValid;
 import com.movie.database.movie_database.user.domain.ApplicationUser;
 import com.movie.database.movie_database.user.model.ApplicationUserRest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Validated
 public class UserController {
 
     private final ApplicationUserCreateService applicationUserCreateService;
@@ -26,7 +29,8 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/users/sign-up")
-    public void signUp(@RequestBody ApplicationUser applicationUser) {
+    public void signUp(@RequestBody ApplicationUser applicationUser,
+                       @RequestParam @RecaptchaValid String recaptchaResponse) {
         applicationUserCreateService.create(applicationUser);
     }
 

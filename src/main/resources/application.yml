@@ -7,6 +7,8 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    drop-first: true
 security:
   access-token:
     expiration-time: 300000
@@ -22,3 +24,6 @@ cors:
   allowed-origins: "*"
   allowed-headers: "*"
   exposed-headers: Authorization,Content-Disposition,Refresh-token
+recaptcha:
+  validation:
+    secret-key: 6LdbWqQUAAAAAAcvQPa2D82_r8hd0WHJLOAWNwzO
