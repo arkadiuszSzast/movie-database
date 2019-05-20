@@ -4,6 +4,7 @@ import com.movie.database.movie_database.user.role.domain.Role;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +19,7 @@ public class ApplicationUser {
     )
     private UUID id;
     private String username;
+    @Size(min = 8, max = 255)
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "application_user_role",

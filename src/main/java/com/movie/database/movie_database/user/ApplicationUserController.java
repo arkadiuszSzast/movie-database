@@ -9,19 +9,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @Validated
-public class UserController {
+public class ApplicationUserController {
 
     private final ApplicationUserCreateService applicationUserCreateService;
     private final RefreshTokenService refreshTokenService;
     private final ApplicationUserGetService applicationUserGetService;
 
-    public UserController(ApplicationUserCreateService applicationUserCreateService,
-                          RefreshTokenService refreshTokenService,
-                          ApplicationUserGetService applicationUserGetService) {
+    public ApplicationUserController(ApplicationUserCreateService applicationUserCreateService,
+                                     RefreshTokenService refreshTokenService,
+                                     ApplicationUserGetService applicationUserGetService) {
         this.applicationUserCreateService = applicationUserCreateService;
         this.refreshTokenService = refreshTokenService;
         this.applicationUserGetService = applicationUserGetService;
@@ -29,7 +30,7 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/users/sign-up")
-    public void signUp(@RequestBody ApplicationUser applicationUser,
+    public void signUp(@Valid @RequestBody ApplicationUser applicationUser,
                        @RequestParam @RecaptchaValid String recaptchaResponse) {
         applicationUserCreateService.create(applicationUser);
     }
