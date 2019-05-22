@@ -5,4 +5,7 @@ databaseChangeLog:
   - include:
       file: db.create_role_1_0.yaml
       relativeToChangelogFile: true
+  - include:
+      file: db.create_confirmation_token_1_0.yaml
+      relativeToChangelogFile: true
 

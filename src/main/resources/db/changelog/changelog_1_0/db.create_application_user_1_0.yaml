@@ -13,6 +13,12 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: email
+                  type: varchar(255)
+                  constraints:
+                    nullable: false,
+                    unique: true
+              - column:
                   name: username
                   type: varchar(255)
                   constraints:
@@ -21,6 +27,11 @@ databaseChangeLog:
               - column:
                   name: password
                   type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
                   constraints:
                     nullable: false
 

@@ -2,9 +2,9 @@ package com.movie.database.movie_database.config.security;
 
 import com.movie.database.movie_database.config.security.filters.JWTAuthenticationFilter;
 import com.movie.database.movie_database.config.security.filters.JWTAuthorizationFilter;
-import com.movie.database.movie_database.config.security.jwt.AccessTokenProperties;
 import com.movie.database.movie_database.config.security.jwt.JWTGenerateService;
-import com.movie.database.movie_database.config.security.jwt.RefreshTokenProperties;
+import com.movie.database.movie_database.support.properties.AccessTokenProperties;
+import com.movie.database.movie_database.support.properties.RefreshTokenProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -21,6 +21,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private static final String SIGN_UP_URL = "/api/users/sign-up";
     private static final String AUTH_REFRESH_URL = "/api/auth/refresh";
     private static final String LOGIN_URL = "/api/auth/login";
+    private static final String CONFIRM_URL = "/api/confirm";
 
     private final AccessTokenProperties accessTokenProperties;
     private final RefreshTokenProperties refreshTokenProperties;
@@ -51,6 +52,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
                 .antMatchers(HttpMethod.POST, AUTH_REFRESH_URL).permitAll()
+                .antMatchers(HttpMethod.GET, CONFIRM_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(getJwtAuthenticationFilter())

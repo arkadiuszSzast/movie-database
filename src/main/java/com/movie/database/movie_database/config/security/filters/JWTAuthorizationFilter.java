@@ -2,7 +2,7 @@ package com.movie.database.movie_database.config.security.filters;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.movie.database.movie_database.config.security.jwt.AccessTokenProperties;
+import com.movie.database.movie_database.support.properties.AccessTokenProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,7 +38,6 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
                     .verify(token).getSubject();
             return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
         } catch (Exception e) {
-            System.out.println("Token expired");
             return null;
         }
     }

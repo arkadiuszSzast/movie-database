@@ -1,4 +1,4 @@
-package com.movie.database.movie_database.config.security.jwt;
+package com.movie.database.movie_database.support.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;

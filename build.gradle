@@ -21,6 +21,7 @@ dependencies {
     implementation 'com.auth0:java-jwt:3.8.0'
     implementation 'com.github.mkopylec:recaptcha-spring-boot-starter:2.1.1'
     implementation 'org.hibernate.validator:hibernate-validator:6.0.16.Final'
+    implementation 'com.sendgrid:sendgrid-java:4.4.1'
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'io.rest-assured:spring-mock-mvc:3.2.0'

@@ -1,26 +1,20 @@
 package com.movie.database.movie_database.user.domain;
 
+import com.movie.database.movie_database.support.Identifiable;
 import com.movie.database.movie_database.user.role.domain.Role;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
-public class ApplicationUser {
+public class ApplicationUser extends Identifiable {
 
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    private UUID id;
+    private String email;
     private String username;
     @Size(min = 8, max = 255)
     private String password;
+    private boolean isActive;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "application_user_role",
             joinColumns = {@JoinColumn(name = "application_user", referencedColumnName = "id")},
@@ -36,12 +30,12 @@ public class ApplicationUser {
         this.password = password;
     }
 
-    public UUID getId() {
-        return id;
+    public String getEmail() {
+        return email;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
@@ -60,12 +54,25 @@ public class ApplicationUser {
         this.password = password;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
     public List<Role> getRoles() {
         return roles;
     }
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.isActive = false;
     }
 
 }

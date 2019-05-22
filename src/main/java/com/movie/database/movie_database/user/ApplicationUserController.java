@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,7 +32,7 @@ public class ApplicationUserController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/users/sign-up")
     public void signUp(@Valid @RequestBody ApplicationUser applicationUser,
-                       @RequestParam @RecaptchaValid String recaptchaResponse) {
+                       @RequestParam @RecaptchaValid String recaptchaResponse) throws IOException {
         applicationUserCreateService.create(applicationUser);
     }
 

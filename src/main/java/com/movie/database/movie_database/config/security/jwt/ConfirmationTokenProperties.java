@@ -3,13 +3,12 @@ package com.movie.database.movie_database.config.security.jwt;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 
-@ConfigurationProperties("security.refresh-token")
+@ConfigurationProperties("security.confirmation-token")
 @PropertySource("classpath:application.yml")
-public class RefreshTokenProperties {
+public class ConfirmationTokenProperties {
 
     private long expirationTime;
     private String secret;
-    private String headerName;
 
     public long getExpirationTime() {
         return expirationTime;
@@ -27,11 +26,4 @@ public class RefreshTokenProperties {
         this.secret = secret;
     }
 
-    public String getHeaderName() {
-        return headerName;
-    }
-
-    public void setHeaderName(String headerName) {
-        this.headerName = headerName;
-    }
 }

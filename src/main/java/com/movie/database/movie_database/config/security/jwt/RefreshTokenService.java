@@ -4,9 +4,13 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.movie.database.movie_database.config.security.jwt.exception.RefreshTokenExpiredException;
+import com.movie.database.movie_database.support.properties.AccessTokenProperties;
+import com.movie.database.movie_database.support.properties.RefreshTokenProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class RefreshTokenService {
@@ -24,9 +28,9 @@ public class RefreshTokenService {
     }
 
     public ResponseEntity refreshToken(String oldRefreshToken) {
-        var username = getSubject(oldRefreshToken);
-        var accessToken = jwtGenerateService.getAccessToken(username);
-        var refreshToken = jwtGenerateService.getRefreshToken(username);
+        var userId = UUID.fromString(getSubject(oldRefreshToken));
+        var accessToken = jwtGenerateService.getAccessToken((userId));
+        var refreshToken = jwtGenerateService.getRefreshToken(userId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .header(accessTokenProperties.getHeaderName(), accessToken)
                 .header(refreshTokenProperties.getHeaderName(), refreshToken)

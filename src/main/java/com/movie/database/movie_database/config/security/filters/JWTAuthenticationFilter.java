@@ -1,9 +1,9 @@
 package com.movie.database.movie_database.config.security.filters;
 
-import com.movie.database.movie_database.config.security.jwt.AccessTokenProperties;
 import com.movie.database.movie_database.config.security.ApplicationUserDetail;
-import com.movie.database.movie_database.config.security.jwt.RefreshTokenProperties;
 import com.movie.database.movie_database.config.security.jwt.JWTGenerateService;
+import com.movie.database.movie_database.support.properties.AccessTokenProperties;
+import com.movie.database.movie_database.support.properties.RefreshTokenProperties;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -34,7 +34,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-
         return authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getParameter("username"),
@@ -46,8 +45,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain chain, Authentication authResult) {
-        var accessToken = jwtGenerateService.getAccessToken(((ApplicationUserDetail) authResult.getPrincipal()).getUsername());
-        var refreshToken = jwtGenerateService.getRefreshToken(((ApplicationUserDetail) authResult.getPrincipal()).getUsername());
+        var applicationUser = ((ApplicationUserDetail) authResult.getPrincipal()).getApplicationUser();
+        var accessToken = jwtGenerateService.getAccessToken(applicationUser.getId());
+        var refreshToken = jwtGenerateService.getRefreshToken(applicationUser.getId());
         response.addHeader(accessTokenProperties.getHeaderName(), accessToken);
         response.addHeader(refreshTokenProperties.getHeaderName(), refreshToken);
     }
