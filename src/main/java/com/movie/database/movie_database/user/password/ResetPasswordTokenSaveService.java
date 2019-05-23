@@ -1,4 +1,4 @@
-package com.movie.database.movie_database.user.confirmation;
+package com.movie.database.movie_database.user.password;
 
 import com.auth0.jwt.JWT;
 import com.movie.database.movie_database.user.ApplicationUserGetService;
@@ -10,23 +10,22 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class ConfirmationTokenSaveService {
+public class ResetPasswordTokenSaveService {
 
-    private final ApplicationUserGetService applicationUserGetService;
     private final ApplicationUserTokenRepository applicationUserTokenRepository;
+    private final ApplicationUserGetService applicationUserGetService;
 
-    public ConfirmationTokenSaveService(ApplicationUserGetService applicationUserGetService,
-                                        ApplicationUserTokenRepository applicationUserTokenRepository) {
-        this.applicationUserGetService = applicationUserGetService;
+    public ResetPasswordTokenSaveService(ApplicationUserTokenRepository applicationUserTokenRepository,
+                                         ApplicationUserGetService applicationUserGetService) {
         this.applicationUserTokenRepository = applicationUserTokenRepository;
+        this.applicationUserGetService = applicationUserGetService;
     }
-
 
     public void save(String token) {
         var userId = JWT.decode(token).getSubject();
         var applicationUser = applicationUserGetService.findById(UUID.fromString(userId));
-        var applicationUserToken = applicationUserTokenRepository.findByApplicationUserAndTokenType(applicationUser, TokenType.CONFIRMATION)
-                .orElse(new ApplicationUserToken(applicationUser, token, TokenType.CONFIRMATION));
+        var applicationUserToken = applicationUserTokenRepository.findByApplicationUserAndTokenType(applicationUser, TokenType.RESET_PASSWORD)
+                .orElse(new ApplicationUserToken(applicationUser, token, TokenType.RESET_PASSWORD));
         applicationUserToken.setToken(token);
         applicationUserTokenRepository.save(applicationUserToken);
     }

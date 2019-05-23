@@ -7,6 +7,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties({CorsProperties.class, AccessTokenProperties.class, RefreshTokenProperties.class,
-        SendGridTemplatesProperties.class, ConfirmationTokenProperties.class, MovieDbProperties.class})
+        SendGridTemplatesProperties.class, ConfirmationTokenProperties.class, MovieDbProperties.class, ResetPasswordTokenProperties.class})
 public class ApplicationPropertiesConfig {
 }

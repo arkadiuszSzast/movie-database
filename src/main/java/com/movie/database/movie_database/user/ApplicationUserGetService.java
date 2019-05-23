@@ -35,4 +35,10 @@ public class ApplicationUserGetService {
         return applicationUserRepository.findById(id)
                 .orElseThrow(() -> new ApplicationApplicationUserNotFoundException(id));
     }
+
+    public ApplicationUserRest findRestByEmail(String email) {
+        var applicationUser = applicationUserRepository.findByEmail(email)
+                .orElseThrow(() -> new ApplicationApplicationUserNotFoundException(email));
+        return applicationUserRestMapper.mapToRest(applicationUser);
+    }
 }

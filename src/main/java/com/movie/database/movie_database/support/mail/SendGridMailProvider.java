@@ -3,6 +3,7 @@ package com.movie.database.movie_database.support.mail;
 import com.movie.database.movie_database.support.properties.MovieDbProperties;
 import com.movie.database.movie_database.support.properties.SendGridTemplatesProperties;
 import com.movie.database.movie_database.user.domain.ApplicationUser;
+import com.movie.database.movie_database.user.model.ApplicationUserRest;
 import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
@@ -27,6 +28,15 @@ public class SendGridMailProvider {
                 "confirm-url", confirmationUrl);
         var basicMail = createBasicMail(sendTo, dynamicVariables);
         basicMail.setTemplateId(sendGridTemplatesProperties.getConfirmRegistration());
+        return basicMail;
+    }
+
+    public Mail createResetPasswordMail(ApplicationUserRest applicationUserRest, String resetPasswordUrl) {
+        var sendTo = new Email(applicationUserRest.getEmail());
+        var dynamicVariables = Map.of("username", applicationUserRest.getUsername(),
+                "reset-url", resetPasswordUrl);
+        var basicMail = createBasicMail(sendTo, dynamicVariables);
+        basicMail.setTemplateId(sendGridTemplatesProperties.getResetPassword());
         return basicMail;
     }
 

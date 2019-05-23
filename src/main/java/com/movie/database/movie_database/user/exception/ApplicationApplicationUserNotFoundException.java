@@ -6,6 +6,7 @@ public class ApplicationApplicationUserNotFoundException extends ApplicationUser
 
     private static final String USER_WITH_ID_NOT_FOUND = "ApplicationUser with id %s not found";
     private static final String USER_WITH_USERNAME_NOT_FOUND = "ApplicationUser with username %s not found";
+    private static final String USER_WITH_EMAIL_NOT_FOUND = "ApplicationUser with email %s not found";
 
     public ApplicationApplicationUserNotFoundException(UUID id) {
         super(String.format(USER_WITH_ID_NOT_FOUND, id));

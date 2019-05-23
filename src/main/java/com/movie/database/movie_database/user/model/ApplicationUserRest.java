@@ -7,11 +7,13 @@ public class ApplicationUserRest {
 
     private final UUID id;
     private final String username;
+    private final String email;
     private final List<String> roles;
 
-    public ApplicationUserRest(UUID id, String username, List<String> roles) {
+    public ApplicationUserRest(UUID id, String username, String email, List<String> roles) {
         this.id = id;
         this.username = username;
+        this.email = email;
         this.roles = roles;
     }
 
@@ -25,5 +27,9 @@ public class ApplicationUserRest {
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

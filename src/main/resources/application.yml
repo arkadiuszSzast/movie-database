@@ -15,6 +15,7 @@ spring:
 mail:
   template:
     confirm-registration: d-d00f99de8c8c4fe8b697c546a0bace78
+    reset-password: d-1859b817f7844f06a3cac08fe9e7fed9
 
 security:
   access-token:
@@ -28,6 +29,9 @@ security:
   confirmation-token:
     expiration-time: 86400000
     secret: PuRJkk4PtdjbvRfbGmFEREKgydjzLQ69
+  reset-password-token:
+    expiration-time: 43200000
+    secret: gwuBCDBQ36VMM5UDkjeT5a3cSZXMQBkR
 
 cors:
   allowed-methods: "*"

@@ -1,15 +1,15 @@
-package com.movie.database.movie_database.user.confirmation;
+package com.movie.database.movie_database.user.password;
 
 import com.movie.database.movie_database.user.token.domain.ApplicationUserToken;
 import com.movie.database.movie_database.user.token.domain.ApplicationUserTokenRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ConfirmationTokenRemoveService {
+public class ResetPasswordTokenRemoveService {
 
     private final ApplicationUserTokenRepository applicationUserTokenRepository;
 
-    public ConfirmationTokenRemoveService(ApplicationUserTokenRepository applicationUserTokenRepository) {
+    public ResetPasswordTokenRemoveService(ApplicationUserTokenRepository applicationUserTokenRepository) {
         this.applicationUserTokenRepository = applicationUserTokenRepository;
     }
 

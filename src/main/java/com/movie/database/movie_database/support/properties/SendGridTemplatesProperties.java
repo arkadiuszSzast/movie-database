@@ -8,6 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 public class SendGridTemplatesProperties {
 
     private String confirmRegistration;
+    private String resetPassword;
 
     public String getConfirmRegistration() {
         return confirmRegistration;
@@ -15,5 +16,13 @@ public class SendGridTemplatesProperties {
 
     public void setConfirmRegistration(String confirmRegistration) {
         this.confirmRegistration = confirmRegistration;
+    }
+
+    public String getResetPassword() {
+        return resetPassword;
+    }
+
+    public void setResetPassword(String resetPassword) {
+        this.resetPassword = resetPassword;
     }
 }

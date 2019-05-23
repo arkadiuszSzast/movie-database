@@ -1,26 +1,28 @@
-package com.movie.database.movie_database.user.confirmation.domain;
+package com.movie.database.movie_database.user.token.domain;
 
 import com.movie.database.movie_database.support.Identifiable;
 import com.movie.database.movie_database.user.domain.ApplicationUser;
+import com.movie.database.movie_database.user.token.model.TokenType;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
-public class ConfirmationToken extends Identifiable {
+public class ApplicationUserToken extends Identifiable {
 
     @ManyToOne
     @JoinColumn(name = "applicationUser", referencedColumnName = "id")
     private ApplicationUser applicationUser;
     private String token;
+    @Enumerated(value = EnumType.STRING)
+    private TokenType tokenType;
 
-    public ConfirmationToken() {
+    public ApplicationUserToken() {
     }
 
-    public ConfirmationToken(ApplicationUser applicationUser, String token) {
+    public ApplicationUserToken(ApplicationUser applicationUser, String token, TokenType tokenType) {
         this.applicationUser = applicationUser;
         this.token = token;
+        this.tokenType = tokenType;
     }
 
     public ApplicationUser getApplicationUser() {
@@ -37,5 +39,13 @@ public class ConfirmationToken extends Identifiable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public TokenType getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(TokenType tokenType) {
+        this.tokenType = tokenType;
     }
 }

@@ -4,7 +4,7 @@ databaseChangeLog:
       author: arkadiusz.szast
       changes:
         - createTable:
-            tableName: confirmation_token
+            tableName: application_user_token
             columns:
               - column:
                   name: id
@@ -21,6 +21,12 @@ databaseChangeLog:
                     references: application_user(id)
               - column:
                   name: token
+                  type: varchar(255)
+                  constraints:
+                    nullable: false,
+                    unique: true
+              - column:
+                  name: token_type
                   type: varchar(255)
                   constraints:
                     nullable: false,

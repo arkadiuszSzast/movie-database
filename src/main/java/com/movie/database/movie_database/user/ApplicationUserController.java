@@ -37,7 +37,7 @@ public class ApplicationUserController {
     }
 
     @PostMapping("/api/auth/refresh")
-    public ResponseEntity refreshToken(@RequestParam String refreshToken) {
+    public ResponseEntity refreshToken(@RequestHeader(name = "Refresh-token") String refreshToken) {
         return refreshTokenService.refreshToken(refreshToken);
     }
 

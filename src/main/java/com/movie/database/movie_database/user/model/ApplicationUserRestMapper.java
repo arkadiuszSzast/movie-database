@@ -22,8 +22,7 @@ public class ApplicationUserRestMapper {
                 .stream()
                 .map(Role::getRole)
                 .collect(Collectors.toList());
-        return new ApplicationUserRest(applicationUser.getId(),
-                applicationUser.getUsername(),
-                roles);
+        return new ApplicationUserRest(applicationUser.getId(), applicationUser.getUsername(),
+                applicationUser.getEmail(), roles);
     }
 }
