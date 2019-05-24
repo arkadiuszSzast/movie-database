@@ -24,7 +24,7 @@ public class ApplicationUserControllerTest {
     @Test
     @DisplayName("Should not add new user when password does not have at least 8 character")
     public void shouldNotAddUserWhenPasswordShortenThanEight() {
-        var account = new ApplicationUser("joe", "short");
+        var account = new ApplicationUser("joe", "short", "mail");
         given()
                 .port(port)
                 .contentType(ContentType.JSON)
@@ -41,7 +41,7 @@ public class ApplicationUserControllerTest {
     @Test
     @DisplayName("Should not add new user when password does not have at least 8 character")
     public void shouldAddNewUser() {
-        var account = new ApplicationUser("joe", "secretPassword");
+        var account = new ApplicationUser("joe", "secretPassword", "mail");
         given()
                 .port(port)
                 .contentType(ContentType.JSON)
@@ -58,7 +58,7 @@ public class ApplicationUserControllerTest {
     @Test
     @DisplayName("Should not log in when user not exists")
     public void shouldNotLogLogIn() {
-        var account = new ApplicationUser("joe", "secretPassword");
+        var account = new ApplicationUser("joe", "secretPassword", "mail");
 
         given()
                 .port(port)
@@ -73,7 +73,7 @@ public class ApplicationUserControllerTest {
     @Test
     @DisplayName("Should log in when user exists")
     public void shouldLogIn() {
-        var account = new ApplicationUser("joe", "secretPassword");
+        var account = new ApplicationUser("joe", "secretPassword", "mail");
         given()
                 .port(port)
                 .contentType(ContentType.JSON)

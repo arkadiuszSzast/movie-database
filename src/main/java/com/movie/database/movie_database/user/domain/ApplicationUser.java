@@ -25,9 +25,10 @@ public class ApplicationUser extends Identifiable {
     public ApplicationUser() {
     }
 
-    public ApplicationUser(String username, String password) {
+    public ApplicationUser(String username, String password, String email) {
         this.username = username;
         this.password = password;
+        this.email = email;
     }
 
     public String getEmail() {
