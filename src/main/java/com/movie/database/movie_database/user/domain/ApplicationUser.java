@@ -1,5 +1,6 @@
 package com.movie.database.movie_database.user.domain;
 
+import com.movie.database.movie_database.movie.domain.Movie;
 import com.movie.database.movie_database.support.Identifiable;
 import com.movie.database.movie_database.user.role.domain.Role;
 
@@ -21,6 +22,12 @@ public class ApplicationUser extends Identifiable {
             inverseJoinColumns = {@JoinColumn(name = "role", referencedColumnName = "id")}
     )
     private List<Role> roles;
+    @ManyToMany
+    @JoinTable(name = "application_user_movie",
+            joinColumns = {@JoinColumn(name = "application_user", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "movie", referencedColumnName = "id")}
+    )
+    private List<Movie> favouriteMovies;
 
     public ApplicationUser() {
     }
@@ -69,6 +76,14 @@ public class ApplicationUser extends Identifiable {
 
     public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Movie> getFavouriteMovies() {
+        return favouriteMovies;
+    }
+
+    public void setFavouriteMovies(List<Movie> favouriteMovies) {
+        this.favouriteMovies = favouriteMovies;
     }
 
     @PrePersist

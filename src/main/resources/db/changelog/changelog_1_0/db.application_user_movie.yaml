@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 1_0_4
+      id: 1_0_9
       author: arkadiusz.szast
       changes:
         - createTable:
-            tableName: application_user_token
+            tableName: application_user_movie
             columns:
               - column:
                   name: id
@@ -20,16 +20,9 @@ databaseChangeLog:
                     foreignKeyName: fk_application_user
                     references: application_user(id)
               - column:
-                  name: token
-                  type: varchar(255)
+                  name: movie
+                  type: UUID
                   constraints:
-                    nullable: false,
-                    unique: true
-              - column:
-                  name: token_type
-                  type: varchar(255)
-                  constraints:
-                    nullable: false,
-                    unique: true
-
-
+                    nullable: false
+                    foreignKeyName: fk_movie
+                    references: movie(id)

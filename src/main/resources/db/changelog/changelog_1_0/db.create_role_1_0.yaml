@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1_1
+      id: 1_0_1
       author: arkadiusz.szast
       changes:
         - createTable:
@@ -18,7 +18,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
   - changeSet:
-      id: 1_2
+      id: 1_0_2
       author: arkadiusz.szast
       changes:
         - createTable:
@@ -45,7 +45,7 @@ databaseChangeLog:
                     foreignKeyName: fk_application_user
                     references: application_user(id)
   - changeSet:
-      id: 1_3
+      id: 1_0_3
       author: arkadiusz.szast
       changes:
         - insert:

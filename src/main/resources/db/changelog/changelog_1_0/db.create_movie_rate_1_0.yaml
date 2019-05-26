@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: 1_0
+      id: 1_0_8
       author: arkadiusz.szast
       changes:
         - createTable:
-            tableName: application_user
+            tableName: movie_rate
             columns:
               - column:
                   name: id
@@ -13,25 +13,21 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: email
-                  type: varchar(255)
-                  constraints:
-                    nullable: false,
-                    unique: true
-              - column:
-                  name: username
-                  type: varchar(255)
-                  constraints:
-                    nullable: false,
-                    unique: true
-              - column:
-                  name: password
-                  type: varchar(255)
+                  name: rate
+                  type: double
                   constraints:
                     nullable: false
               - column:
-                  name: is_active
-                  type: boolean
+                  name: application_user
+                  type: UUID
                   constraints:
                     nullable: false
-
+                    foreignKeyName: fk_application_user
+                    references: application_user(id)
+              - column:
+                  name: movie
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_movie
+                    references: movie(id)
