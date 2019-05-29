@@ -3,6 +3,7 @@ package com.movie.database.movie_database.config.security.filters;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.movie.database.movie_database.support.properties.AccessTokenProperties;
+import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklistRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,10 +19,13 @@ import java.util.ArrayList;
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final AccessTokenProperties accessTokenProperties;
+    private final TokenBlacklistRepository tokenBlacklistRepository;
 
-    public JWTAuthorizationFilter(AuthenticationManager authManager, AccessTokenProperties accessTokenProperties) {
+    public JWTAuthorizationFilter(AuthenticationManager authManager, AccessTokenProperties accessTokenProperties,
+                                  TokenBlacklistRepository tokenBlacklistRepository) {
         super(authManager);
         this.accessTokenProperties = accessTokenProperties;
+        this.tokenBlacklistRepository = tokenBlacklistRepository;
     }
 
     @Override
@@ -33,6 +37,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         var token = request.getHeader(accessTokenProperties.getHeaderName());
+        if (tokenBlacklistRepository.existsByToken(token)) {
+            return null;
+        }
         try {
             var user = JWT.require(Algorithm.HMAC256(accessTokenProperties.getSecret())).build()
                     .verify(token).getSubject();

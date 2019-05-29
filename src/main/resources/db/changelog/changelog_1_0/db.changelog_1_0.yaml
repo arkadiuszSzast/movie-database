@@ -23,4 +23,7 @@ databaseChangeLog:
   - include:
       file: db.application_user_movie.yaml
       relativeToChangelogFile: true
+  - include:
+      file: db.create_token_blacklist_1_0.yaml
+      relativeToChangelogFile: true
 

@@ -4,6 +4,8 @@ import com.movie.database.movie_database.config.security.jwt.RefreshTokenService
 import com.movie.database.movie_database.support.recaptcha.RecaptchaValid;
 import com.movie.database.movie_database.user.domain.ApplicationUser;
 import com.movie.database.movie_database.user.model.ApplicationUserRest;
+import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklist;
+import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklistRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -20,13 +22,16 @@ public class ApplicationUserController {
     private final ApplicationUserCreateService applicationUserCreateService;
     private final RefreshTokenService refreshTokenService;
     private final ApplicationUserGetService applicationUserGetService;
+    private final TokenBlacklistRepository tokenBlacklistRepository;
 
     public ApplicationUserController(ApplicationUserCreateService applicationUserCreateService,
                                      RefreshTokenService refreshTokenService,
-                                     ApplicationUserGetService applicationUserGetService) {
+                                     ApplicationUserGetService applicationUserGetService,
+                                     TokenBlacklistRepository tokenBlacklistRepository) {
         this.applicationUserCreateService = applicationUserCreateService;
         this.refreshTokenService = refreshTokenService;
         this.applicationUserGetService = applicationUserGetService;
+        this.tokenBlacklistRepository = tokenBlacklistRepository;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,9 +51,9 @@ public class ApplicationUserController {
         return applicationUserGetService.findAll();
     }
 
-    @PostMapping("/test")
-    public String refreshToken() {
-        return "test";
+    @PostMapping("/api/auth/logout")
+    public void logout(@RequestParam String token) {
+        tokenBlacklistRepository.save(new TokenBlacklist(token));
     }
 
 }

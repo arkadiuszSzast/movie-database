@@ -44,7 +44,9 @@ public class JWTGenerateService {
         var applicationUserRest = applicationUserGetService.findRestById(userId);
         return JWT.create()
                 .withSubject(userId.toString())
-                .withArrayClaim("ROLE", applicationUserRest.getRoles().toArray(new String[0]))
+                .withArrayClaim("roles", applicationUserRest.getRoles().toArray(new String[0]))
+                .withClaim("username", applicationUserRest.getUsername())
+                .withClaim("email", applicationUserRest.getEmail())
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenProperties.getExpirationTime()))
                 .sign(Algorithm.HMAC256(accessTokenProperties.getSecret()));
     }

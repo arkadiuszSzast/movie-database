@@ -5,6 +5,7 @@ import com.movie.database.movie_database.config.security.filters.JWTAuthorizatio
 import com.movie.database.movie_database.config.security.jwt.JWTGenerateService;
 import com.movie.database.movie_database.support.properties.AccessTokenProperties;
 import com.movie.database.movie_database.support.properties.RefreshTokenProperties;
+import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklistRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -28,13 +29,16 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final AccessTokenProperties accessTokenProperties;
     private final RefreshTokenProperties refreshTokenProperties;
     private final JWTGenerateService jwtGenerateService;
+    private final TokenBlacklistRepository tokenBlacklistRepository;
 
     public WebSecurity(AccessTokenProperties accessTokenProperties,
                        RefreshTokenProperties refreshTokenProperties,
-                       JWTGenerateService jwtGenerateService) {
+                       JWTGenerateService jwtGenerateService,
+                       TokenBlacklistRepository tokenBlacklistRepository) {
         this.accessTokenProperties = accessTokenProperties;
         this.refreshTokenProperties = refreshTokenProperties;
         this.jwtGenerateService = jwtGenerateService;
+        this.tokenBlacklistRepository = tokenBlacklistRepository;
     }
 
     @Override
@@ -70,7 +74,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     private JWTAuthorizationFilter getJWTAuthorizationFilter() throws Exception {
-        return new JWTAuthorizationFilter(authenticationManager(), accessTokenProperties);
+        return new JWTAuthorizationFilter(authenticationManager(), accessTokenProperties, tokenBlacklistRepository);
     }
 
     private JWTAuthenticationFilter getJwtAuthenticationFilter() throws Exception {

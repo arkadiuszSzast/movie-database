@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1_0_9
+      author: arkadiusz.szast
+      changes:
+        - createTable:
+            tableName: token_blacklist
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: token
+                  type: varchar(255)
+                  constraints:
+                    nullable: false,
+                    unique: true
