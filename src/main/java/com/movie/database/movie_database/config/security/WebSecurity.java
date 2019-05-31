@@ -5,11 +5,13 @@ import com.movie.database.movie_database.config.security.filters.JWTAuthorizatio
 import com.movie.database.movie_database.config.security.jwt.JWTGenerateService;
 import com.movie.database.movie_database.support.properties.AccessTokenProperties;
 import com.movie.database.movie_database.support.properties.RefreshTokenProperties;
+import com.movie.database.movie_database.user.ApplicationUserGetService;
 import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklistRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,6 +19,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     private static final String SIGN_UP_URL = "/api/users/sign-up";
@@ -30,15 +33,18 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private final RefreshTokenProperties refreshTokenProperties;
     private final JWTGenerateService jwtGenerateService;
     private final TokenBlacklistRepository tokenBlacklistRepository;
+    private final ApplicationUserGetService applicationUserGetService;
 
     public WebSecurity(AccessTokenProperties accessTokenProperties,
                        RefreshTokenProperties refreshTokenProperties,
                        JWTGenerateService jwtGenerateService,
-                       TokenBlacklistRepository tokenBlacklistRepository) {
+                       TokenBlacklistRepository tokenBlacklistRepository,
+                       ApplicationUserGetService applicationUserGetService) {
         this.accessTokenProperties = accessTokenProperties;
         this.refreshTokenProperties = refreshTokenProperties;
         this.jwtGenerateService = jwtGenerateService;
         this.tokenBlacklistRepository = tokenBlacklistRepository;
+        this.applicationUserGetService = applicationUserGetService;
     }
 
     @Override
@@ -74,7 +80,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     }
 
     private JWTAuthorizationFilter getJWTAuthorizationFilter() throws Exception {
-        return new JWTAuthorizationFilter(authenticationManager(), accessTokenProperties, tokenBlacklistRepository);
+        return new JWTAuthorizationFilter(authenticationManager(), accessTokenProperties, tokenBlacklistRepository, applicationUserGetService);
     }
 
     private JWTAuthenticationFilter getJwtAuthenticationFilter() throws Exception {

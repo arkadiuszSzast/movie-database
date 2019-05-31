@@ -8,6 +8,7 @@ import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlackl
 import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklistRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,14 +47,15 @@ public class ApplicationUserController {
         return refreshTokenService.refreshToken(refreshToken);
     }
 
-    @GetMapping("/api/users")
-    public List<ApplicationUserRest> findAll() {
-        return applicationUserGetService.findAll();
-    }
-
     @PostMapping("/api/auth/logout")
     public void logout(@RequestParam String token) {
         tokenBlacklistRepository.save(new TokenBlacklist(token));
+    }
+
+    @GetMapping("/api/users")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<ApplicationUserRest> findAll() {
+        return applicationUserGetService.findAll();
     }
 
 }

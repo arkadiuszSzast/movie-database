@@ -3,6 +3,7 @@ package com.movie.database.movie_database.config.security.filters;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.movie.database.movie_database.support.properties.AccessTokenProperties;
+import com.movie.database.movie_database.user.ApplicationUserGetService;
 import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklistRepository;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,18 +15,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.UUID;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
     private final AccessTokenProperties accessTokenProperties;
     private final TokenBlacklistRepository tokenBlacklistRepository;
+    private final ApplicationUserGetService applicationUserGetService;
 
     public JWTAuthorizationFilter(AuthenticationManager authManager, AccessTokenProperties accessTokenProperties,
-                                  TokenBlacklistRepository tokenBlacklistRepository) {
+                                  TokenBlacklistRepository tokenBlacklistRepository,
+                                  ApplicationUserGetService applicationUserGetService) {
         super(authManager);
         this.accessTokenProperties = accessTokenProperties;
         this.tokenBlacklistRepository = tokenBlacklistRepository;
+        this.applicationUserGetService = applicationUserGetService;
     }
 
     @Override
@@ -41,9 +45,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             return null;
         }
         try {
-            var user = JWT.require(Algorithm.HMAC256(accessTokenProperties.getSecret())).build()
+            var userId = JWT.require(Algorithm.HMAC256(accessTokenProperties.getSecret())).build()
                     .verify(token).getSubject();
-            return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            var applicationUser = applicationUserGetService.findById(UUID.fromString(userId));
+            return new UsernamePasswordAuthenticationToken(userId, null, applicationUser.getRoles());
         } catch (Exception e) {
             return null;
         }
