@@ -4,6 +4,7 @@ import com.movie.database.movie_database.config.security.jwt.RefreshTokenService
 import com.movie.database.movie_database.support.recaptcha.RecaptchaValid;
 import com.movie.database.movie_database.user.domain.ApplicationUser;
 import com.movie.database.movie_database.user.model.ApplicationUserRest;
+import com.movie.database.movie_database.user.role.domain.Role;
 import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklist;
 import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklistRepository;
 import org.springframework.http.HttpStatus;
@@ -12,9 +13,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.relation.RoleNotFoundException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @Validated
@@ -24,21 +27,24 @@ public class ApplicationUserController {
     private final RefreshTokenService refreshTokenService;
     private final ApplicationUserGetService applicationUserGetService;
     private final TokenBlacklistRepository tokenBlacklistRepository;
+    private final ApplicationUserUpdateService applicationUserUpdateService;
 
     public ApplicationUserController(ApplicationUserCreateService applicationUserCreateService,
                                      RefreshTokenService refreshTokenService,
                                      ApplicationUserGetService applicationUserGetService,
-                                     TokenBlacklistRepository tokenBlacklistRepository) {
+                                     TokenBlacklistRepository tokenBlacklistRepository,
+                                     ApplicationUserUpdateService applicationUserUpdateService) {
         this.applicationUserCreateService = applicationUserCreateService;
         this.refreshTokenService = refreshTokenService;
         this.applicationUserGetService = applicationUserGetService;
         this.tokenBlacklistRepository = tokenBlacklistRepository;
+        this.applicationUserUpdateService = applicationUserUpdateService;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/users/sign-up")
     public void signUp(@Valid @RequestBody ApplicationUser applicationUser,
-                       @RequestParam @RecaptchaValid String recaptchaResponse) throws IOException {
+                       @RequestParam @RecaptchaValid String recaptchaResponse) throws IOException, RoleNotFoundException {
         applicationUserCreateService.create(applicationUser);
     }
 
@@ -56,6 +62,12 @@ public class ApplicationUserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public List<ApplicationUserRest> findAll() {
         return applicationUserGetService.findAll();
+    }
+
+    @PutMapping("/api/users/{applicationUserId}/roles")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void updateRoles(@PathVariable UUID applicationUserId, @RequestBody List<Role> roles) {
+        applicationUserUpdateService.updateRoles(applicationUserId, roles);
     }
 
 }

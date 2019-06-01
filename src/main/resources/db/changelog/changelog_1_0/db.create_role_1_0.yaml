@@ -25,12 +25,6 @@ databaseChangeLog:
             tableName: application_user_role
             columns:
               - column:
-                  name: id
-                  type: UUID
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
                   name: role
                   type: UUID
                   constraints:
