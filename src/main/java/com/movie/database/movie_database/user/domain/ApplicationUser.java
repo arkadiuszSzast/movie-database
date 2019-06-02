@@ -3,6 +3,7 @@ package com.movie.database.movie_database.user.domain;
 import com.movie.database.movie_database.movie.domain.Movie;
 import com.movie.database.movie_database.support.Identifiable;
 import com.movie.database.movie_database.user.role.domain.Role;
+import com.movie.database.movie_database.user.token.domain.ApplicationUserToken;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -28,6 +29,8 @@ public class ApplicationUser extends Identifiable {
             inverseJoinColumns = {@JoinColumn(name = "movie", referencedColumnName = "id")}
     )
     private List<Movie> favouriteMovies;
+    @OneToMany(mappedBy = "applicationUser", orphanRemoval = true)
+    private List<ApplicationUserToken> tokens;
 
     public ApplicationUser() {
     }
@@ -84,6 +87,14 @@ public class ApplicationUser extends Identifiable {
 
     public void setFavouriteMovies(List<Movie> favouriteMovies) {
         this.favouriteMovies = favouriteMovies;
+    }
+
+    public List<ApplicationUserToken> getTokens() {
+        return tokens;
+    }
+
+    public void setTokens(List<ApplicationUserToken> tokens) {
+        this.tokens = tokens;
     }
 
     @PrePersist

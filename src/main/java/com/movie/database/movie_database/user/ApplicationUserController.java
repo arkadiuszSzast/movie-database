@@ -28,17 +28,20 @@ public class ApplicationUserController {
     private final ApplicationUserGetService applicationUserGetService;
     private final TokenBlacklistRepository tokenBlacklistRepository;
     private final ApplicationUserUpdateService applicationUserUpdateService;
+    private final ApplicationUserDeleteService applicationUserDeleteService;
 
     public ApplicationUserController(ApplicationUserCreateService applicationUserCreateService,
                                      RefreshTokenService refreshTokenService,
                                      ApplicationUserGetService applicationUserGetService,
                                      TokenBlacklistRepository tokenBlacklistRepository,
-                                     ApplicationUserUpdateService applicationUserUpdateService) {
+                                     ApplicationUserUpdateService applicationUserUpdateService,
+                                     ApplicationUserDeleteService applicationUserDeleteService) {
         this.applicationUserCreateService = applicationUserCreateService;
         this.refreshTokenService = refreshTokenService;
         this.applicationUserGetService = applicationUserGetService;
         this.tokenBlacklistRepository = tokenBlacklistRepository;
         this.applicationUserUpdateService = applicationUserUpdateService;
+        this.applicationUserDeleteService = applicationUserDeleteService;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -68,6 +71,12 @@ public class ApplicationUserController {
     @PreAuthorize("hasAuthority('ADMIN')")
     public void updateRoles(@PathVariable UUID applicationUserId, @RequestBody List<Role> roles) {
         applicationUserUpdateService.updateRoles(applicationUserId, roles);
+    }
+
+    @DeleteMapping("/api/users/{applicationUserId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void updateRoles(@PathVariable UUID applicationUserId) {
+        applicationUserDeleteService.deleteApplicationUser(applicationUserId);
     }
 
 }
