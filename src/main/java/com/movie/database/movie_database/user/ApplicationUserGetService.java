@@ -2,7 +2,7 @@ package com.movie.database.movie_database.user;
 
 import com.movie.database.movie_database.user.domain.ApplicationUser;
 import com.movie.database.movie_database.user.domain.ApplicationUserRepository;
-import com.movie.database.movie_database.user.exception.ApplicationApplicationUserNotFoundException;
+import com.movie.database.movie_database.user.exception.ApplicationUserNotFoundException;
 import com.movie.database.movie_database.user.model.ApplicationUserRest;
 import com.movie.database.movie_database.user.model.ApplicationUserRestMapper;
 import org.springframework.stereotype.Service;
@@ -33,12 +33,12 @@ public class ApplicationUserGetService {
 
     public ApplicationUser findById(UUID id) {
         return applicationUserRepository.findById(id)
-                .orElseThrow(() -> new ApplicationApplicationUserNotFoundException(id));
+                .orElseThrow(() -> new ApplicationUserNotFoundException(id));
     }
 
     public ApplicationUserRest findRestByEmail(String email) {
         var applicationUser = applicationUserRepository.findByEmail(email)
-                .orElseThrow(() -> new ApplicationApplicationUserNotFoundException(email));
+                .orElseThrow(() -> new ApplicationUserNotFoundException(email));
         return applicationUserRestMapper.mapToRest(applicationUser);
     }
 }

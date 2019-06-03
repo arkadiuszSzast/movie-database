@@ -1,9 +1,8 @@
 package com.movie.database.movie_database.user.password;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.movie.database.movie_database.user.exception.ApplicationUserNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -28,5 +27,10 @@ public class ResetPasswordController {
     public void resetPassword(@RequestParam String password,
                               @RequestHeader(name = "Reset-password-token") String resetPasswordToken) {
         resetPasswordService.reset(password, resetPasswordToken);
+    }
+
+    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler({ApplicationUserNotFoundException.class})
+    public void handleException() {
     }
 }

@@ -24,9 +24,10 @@ public class Movie extends Identifiable {
     public Movie() {
     }
 
-    public Movie(String title, String description, Category category) {
+    public Movie(String title, String description, List<Category> categories) {
         this.title = title;
         this.description = description;
+        this.categories = categories;
     }
 
     public String getTitle() {

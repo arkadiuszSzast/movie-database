@@ -57,7 +57,7 @@ public class ApplicationUserController {
     }
 
     @PostMapping("/api/auth/logout")
-    public void logout(@RequestParam String token) {
+    public void logout(@RequestHeader(name = "Authorization") String token) {
         tokenBlacklistRepository.save(new TokenBlacklist(token));
     }
 

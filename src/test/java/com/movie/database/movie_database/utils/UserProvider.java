@@ -5,11 +5,11 @@ import com.movie.database.movie_database.user.domain.ApplicationUserRepository;
 import com.movie.database.movie_database.user.role.domain.Role;
 import com.movie.database.movie_database.user.role.domain.RoleRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.testcontainers.shaded.org.jvnet.hk2.annotations.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service
+@Component
 public class UserProvider {
 
     private final ApplicationUserRepository applicationUserRepository;
@@ -26,7 +26,7 @@ public class UserProvider {
     public ApplicationUser createActivatedUserWithAdminRole() {
         var role = new Role("ADMIN");
         var savedRole = roleRepository.save(role);
-        var savedAccount = createActivatedUser();
+        var savedAccount = createActivatedUser("emailWithAdminRole@email.com", "admin");
         savedAccount.setRoles(List.of(savedRole));
         var accountWithRole = applicationUserRepository.save(savedAccount);
         accountWithRole.setPassword("secretPassword");
@@ -36,7 +36,7 @@ public class UserProvider {
     public ApplicationUser createActivatedUserWithUserRole() {
         var role = new Role("USER");
         var savedRole = roleRepository.save(role);
-        var savedAccount = createActivatedUser();
+        var savedAccount = createActivatedUser("emailWithUserRole@email.com", "user");
         savedAccount.setRoles(List.of(savedRole));
         var accountWithRole = applicationUserRepository.save(savedAccount);
         accountWithRole.setPassword("secretPassword");
@@ -44,13 +44,13 @@ public class UserProvider {
     }
 
     public ApplicationUser createActivatedUserWithoutAnyRole() {
-        var savedAccount = createActivatedUser();
+        var savedAccount = createActivatedUser("emailWithoutRole@email.com", "noRole");
         savedAccount.setPassword("secretPassword");
         return savedAccount;
     }
 
-    private ApplicationUser createActivatedUser() {
-        var account = new ApplicationUser("joe", "secretPassword", "mail@mail.ca");
+    private ApplicationUser createActivatedUser(String email, String username) {
+        var account = new ApplicationUser(username, "secretPassword", email);
         var encryptedPassword = bCryptPasswordEncoder.encode(account.getPassword());
         account.setPassword(encryptedPassword);
         applicationUserRepository.save(account);
