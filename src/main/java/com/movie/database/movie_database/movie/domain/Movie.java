@@ -3,10 +3,7 @@ package com.movie.database.movie_database.movie.domain;
 import com.movie.database.movie_database.movie.category.domain.Category;
 import com.movie.database.movie_database.support.Identifiable;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -14,7 +11,7 @@ public class Movie extends Identifiable {
 
     private String title;
     private String description;
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "movie_category",
             joinColumns = {@JoinColumn(name = "movie", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "category", referencedColumnName = "id")}

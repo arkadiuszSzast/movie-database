@@ -7,12 +7,6 @@ databaseChangeLog:
             tableName: movie_category
             columns:
               - column:
-                  name: id
-                  type: UUID
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
                   name: movie
                   type: UUID
                   constraints:
