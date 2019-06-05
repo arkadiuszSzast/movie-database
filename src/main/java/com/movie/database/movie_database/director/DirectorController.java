@@ -34,7 +34,7 @@ public class DirectorController {
 
     @DeleteMapping("/api/directors/{directorId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void addDirector(@PathVariable UUID directorId) {
+    public void deleteDirector(@PathVariable UUID directorId) {
         directorDeleteService.delete(directorId);
     }
 }

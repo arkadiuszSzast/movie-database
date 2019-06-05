@@ -35,7 +35,7 @@ public class ActorController {
 
     @DeleteMapping("/api/actors/{actorId}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void addDirector(@PathVariable UUID actorId) {
+    public void deleteActor(@PathVariable UUID actorId) {
         actorDeleteService.delete(actorId);
     }
 }
