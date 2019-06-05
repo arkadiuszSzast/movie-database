@@ -14,7 +14,7 @@ public class ApplicationUserDeleteService {
         this.applicationUserRepository = applicationUserRepository;
     }
 
-    public void deleteApplicationUser(UUID applicationUserId) {
+    public void delete(UUID applicationUserId) {
         applicationUserRepository.deleteById(applicationUserId);
     }
 }

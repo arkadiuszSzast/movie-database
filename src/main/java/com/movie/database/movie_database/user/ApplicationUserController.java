@@ -76,7 +76,7 @@ public class ApplicationUserController {
     @DeleteMapping("/api/users/{applicationUserId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public void updateRoles(@PathVariable UUID applicationUserId) {
-        applicationUserDeleteService.deleteApplicationUser(applicationUserId);
+        applicationUserDeleteService.delete(applicationUserId);
     }
 
 }
