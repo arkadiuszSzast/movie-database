@@ -1,5 +1,7 @@
 package com.movie.database.movie_database.utils.factories;
 
+import com.movie.database.movie_database.actor.domain.Actor;
+import com.movie.database.movie_database.director.domain.Director;
 import com.movie.database.movie_database.movie.category.domain.Category;
 import com.movie.database.movie_database.movie.domain.Movie;
 import com.movie.database.movie_database.movie.domain.MovieRepository;
@@ -19,6 +21,8 @@ public class MovieFactory {
     private String title;
     private String description;
     private List<Category> categories;
+    private List<Director> directors;
+    private List<Actor> actors;
 
     public MovieFactory withId(UUID id) {
         this.id = id;
@@ -40,12 +44,22 @@ public class MovieFactory {
         return this;
     }
 
+    public MovieFactory withActors(List<Actor> actors) {
+        this.actors = actors;
+        return this;
+    }
+
+    public MovieFactory withDirectors(List<Director> directors) {
+        this.directors = directors;
+        return this;
+    }
+
     public Movie createWithSave() {
         return movieRepository.save(create());
     }
 
     public Movie create() {
-        var movie = new Movie(title, description, categories);
+        var movie = new Movie(title, description, categories, actors, directors);
         movie.setId(id);
         return movie;
     }

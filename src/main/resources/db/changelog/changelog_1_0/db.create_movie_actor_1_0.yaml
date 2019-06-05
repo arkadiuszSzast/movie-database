@@ -1,0 +1,22 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1_0_12
+      author: arkadiusz.szast
+      changes:
+        - createTable:
+            tableName: movie_actor
+            columns:
+              - column:
+                  name: movie
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_movie
+                    references: movie(id)
+              - column:
+                  name: actor
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_actor
+                    references: actor(id)
