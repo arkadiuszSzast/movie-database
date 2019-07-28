@@ -8,9 +8,9 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   sendgrid:
-    api-key: *
+    api-key: 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
   liquibase:
-    drop-first: true
+    drop-first: false
 
 mail:
   template:
@@ -48,5 +48,5 @@ movie-db:
   frontend-url: http://localhost:4200
 
 cron:
-  blacklisted-token: '* * */2 * * *'
+  blacklisted-token: '0 0 */2 * * *'
 
