@@ -7,6 +7,7 @@ import com.movie.database.movie_database.support.Identifiable;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Movie extends Identifiable {

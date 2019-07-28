@@ -1,5 +1,7 @@
-package com.movie.database.movie_database.movie.domain;
+package com.movie.database.movie_database.movie;
 
+import com.movie.database.movie_database.movie.domain.Movie;
+import com.movie.database.movie_database.movie.domain.MovieRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
