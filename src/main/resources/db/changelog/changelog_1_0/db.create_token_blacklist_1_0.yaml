@@ -18,3 +18,8 @@ databaseChangeLog:
                   constraints:
                     nullable: false,
                     unique: true
+              - column:
+                 name: created_date
+                 type: timestamp
+                 constraints:
+                   nullable: false,

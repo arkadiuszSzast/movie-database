@@ -47,3 +47,6 @@ movie-db:
   application-url: http://localhost:8080
   frontend-url: http://localhost:4200
 
+cron:
+  blacklisted-token: '* * */2 * * *'
+
