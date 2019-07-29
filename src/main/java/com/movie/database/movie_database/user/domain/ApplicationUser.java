@@ -8,6 +8,7 @@ import com.movie.database.movie_database.user.token.domain.ApplicationUserToken;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Optional;
 
 @Entity
 public class ApplicationUser extends Identifiable {
@@ -17,6 +18,7 @@ public class ApplicationUser extends Identifiable {
     @Size(min = 8, max = 255)
     private String password;
     private boolean isActive;
+    private String avatarUrl;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "application_user_role",
             joinColumns = {@JoinColumn(name = "application_user", referencedColumnName = "id")},
@@ -95,6 +97,14 @@ public class ApplicationUser extends Identifiable {
 
     public void setTokens(List<ApplicationUserToken> tokens) {
         this.tokens = tokens;
+    }
+
+    public Optional<String> getAvatarUrl() {
+        return Optional.ofNullable(avatarUrl);
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     @PrePersist

@@ -34,4 +34,6 @@ databaseChangeLog:
                   type: boolean
                   constraints:
                     nullable: false
-
+              - column:
+                  name: avatar_url
+                  type: varchar(255)

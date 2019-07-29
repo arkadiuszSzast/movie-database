@@ -1,5 +1,6 @@
 package com.movie.database.movie_database.user;
 
+import com.movie.database.movie_database.user.domain.ApplicationUser;
 import com.movie.database.movie_database.user.domain.ApplicationUserRepository;
 import com.movie.database.movie_database.user.role.domain.Role;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,10 @@ public class ApplicationUserUpdateService {
                                         ApplicationUserRepository applicationUserRepository) {
         this.applicationUserGetService = applicationUserGetService;
         this.applicationUserRepository = applicationUserRepository;
+    }
+
+    public void update(ApplicationUser applicationUser) {
+        applicationUserRepository.save(applicationUser);
     }
 
     public void updateRoles(UUID applicationUserId, List<Role> roles) {

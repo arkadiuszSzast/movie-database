@@ -10,7 +10,11 @@ spring:
   sendgrid:
     api-key: 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
   liquibase:
-    drop-first: false
+    drop-first: true
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      location: ./avatars/
 
 mail:
   template:

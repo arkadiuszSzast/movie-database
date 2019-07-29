@@ -48,7 +48,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             var userId = JWT.require(Algorithm.HMAC256(accessTokenProperties.getSecret())).build()
                     .verify(token).getSubject();
             var applicationUser = applicationUserGetService.findById(UUID.fromString(userId));
-            return new UsernamePasswordAuthenticationToken(userId, null, applicationUser.getRoles());
+            return new UsernamePasswordAuthenticationToken(applicationUser, null, applicationUser.getRoles());
         } catch (Exception e) {
             return null;
         }
