@@ -47,7 +47,7 @@ class SendGridMailProviderTest {
     @Test
     public void shouldGetResetPasswordMail() {
         //arrange
-        var applicationUser = new ApplicationUserRest(UUID.randomUUID(), "admin", "mail", Collections.emptyList());
+        var applicationUser = new ApplicationUserRest(UUID.randomUUID(), "admin", "mail", "default", Collections.emptyList());
         var resetPasswordUrl = "confirmationUrl";
         var resetPasswordtemplateId = "resetPasswordTemplateId";
         when(sendGridTemplatesProperties.getResetPassword()).thenReturn(resetPasswordtemplateId);

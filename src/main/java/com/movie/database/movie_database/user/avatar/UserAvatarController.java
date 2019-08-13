@@ -18,9 +18,8 @@ public class UserAvatarController {
         this.userAvatarService = userAvatarService;
     }
 
-    @PostMapping("/api/avatar")
-    public void uploadAvatar(@RequestParam MultipartFile avatar, @CurrentUserId UUID userId) throws IOException {
-        userAvatarService.save(avatar, userId);
+    @PostMapping("/api/user/avatar")
+    public void uploadAvatar(@RequestParam MultipartFile file, @CurrentUserId UUID userId) throws IOException {
+        userAvatarService.save(file, userId);
     }
-
 }

@@ -45,8 +45,8 @@ class ApplicationUserGetServiceTest {
         var adminUser = new ApplicationUser("adminUsername", "adminPassword", "adminEmail@email.ca");
         adminUser.setRoles(List.of(userRole, adminRole));
         adminUser.setId(adminId);
-        var userRest = new ApplicationUserRest(userId, applicationUser.getUsername(), applicationUser.getEmail(), List.of("USER"));
-        var adminRest = new ApplicationUserRest(adminId, adminUser.getUsername(), adminUser.getEmail(), List.of("ADMIN"));
+        var userRest = new ApplicationUserRest(userId, applicationUser.getUsername(), applicationUser.getEmail(), applicationUser.getAvatarUrl().orElse("default"), List.of("USER"));
+        var adminRest = new ApplicationUserRest(adminId, adminUser.getUsername(), adminUser.getEmail(), adminUser.getAvatarUrl().orElse("default"), List.of("ADMIN"));
         when(applicationUserRepository.findAll()).thenReturn(List.of(applicationUser, adminUser));
         when(applicationUserRestMapper.mapToRest(List.of(applicationUser, adminUser))).thenReturn(List.of(userRest, adminRest));
 
@@ -65,7 +65,7 @@ class ApplicationUserGetServiceTest {
         var userRole = new Role("USER");
         var user = new ApplicationUser("username", "password", "email@email.ca");
         user.setRoles(List.of(userRole));
-        var userRest = new ApplicationUserRest(userId, user.getUsername(), user.getEmail(), List.of("USER"));
+        var userRest = new ApplicationUserRest(userId, user.getUsername(), user.getEmail(), user.getAvatarUrl().orElse("default"), List.of("USER"));
         when(applicationUserRepository.findById(userId)).thenReturn(Optional.of(user));
         when(applicationUserRestMapper.mapToRest(user)).thenReturn(userRest);
 
@@ -96,7 +96,7 @@ class ApplicationUserGetServiceTest {
         var userRole = new Role("USER");
         var user = new ApplicationUser("username", "password", "email@email.ca");
         user.setRoles(List.of(userRole));
-        var userRest = new ApplicationUserRest(userId, user.getUsername(), user.getEmail(), List.of("USER"));
+        var userRest = new ApplicationUserRest(userId, user.getUsername(), user.getEmail(), user.getAvatarUrl().orElse("default"), List.of("USER"));
         when(applicationUserRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
         when(applicationUserRestMapper.mapToRest(user)).thenReturn(userRest);
 

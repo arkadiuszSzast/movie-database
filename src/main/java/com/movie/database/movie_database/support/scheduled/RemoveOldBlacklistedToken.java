@@ -20,7 +20,7 @@ public class RemoveOldBlacklistedToken {
         this.tokenBlacklistRepository = tokenBlacklistRepository;
     }
 
-    @Scheduled(cron = "${cron.blacklisted-token}")
+    @Scheduled(cron = "${cron.remove-blacklisted-token}")
     @Transactional
     public void removeOldBlacklistedToken() {
         log.info("Removing old blacklisted tokens");

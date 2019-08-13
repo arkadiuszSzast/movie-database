@@ -23,6 +23,6 @@ public class ApplicationUserRestMapper {
                 .map(Role::getRole)
                 .collect(Collectors.toList());
         return new ApplicationUserRest(applicationUser.getId(), applicationUser.getUsername(),
-                applicationUser.getEmail(), roles);
+                applicationUser.getEmail(), applicationUser.getAvatarUrl().orElse("default"), roles);
     }
 }

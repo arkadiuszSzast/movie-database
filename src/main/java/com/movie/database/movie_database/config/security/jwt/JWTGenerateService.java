@@ -47,6 +47,7 @@ public class JWTGenerateService {
                 .withArrayClaim("roles", applicationUserRest.getRoles().toArray(new String[0]))
                 .withClaim("username", applicationUserRest.getUsername())
                 .withClaim("email", applicationUserRest.getEmail())
+                .withClaim("avatar", applicationUserRest.getAvatar())
                 .withExpiresAt(new Date(System.currentTimeMillis() + accessTokenProperties.getExpirationTime()))
                 .sign(Algorithm.HMAC256(accessTokenProperties.getSecret()));
     }

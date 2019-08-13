@@ -48,7 +48,7 @@ class JWTGenerateServiceTest {
     public void shouldGenerateAccessToken() {
         //arrange
         var userId = UUID.fromString("6a9f766e-bd92-4397-bc22-98e61e388757");
-        var userRest = new ApplicationUserRest(userId, "username", "email@email.ca", List.of("USER"));
+        var userRest = new ApplicationUserRest(userId, "username", "email@email.ca", "default", List.of("USER"));
         when(applicationUserGetService.findRestById(userId)).thenReturn(userRest);
         when(accessTokenProperties.getSecret()).thenReturn("secret");
         when(accessTokenProperties.getExpirationTime()).thenReturn(1000L);

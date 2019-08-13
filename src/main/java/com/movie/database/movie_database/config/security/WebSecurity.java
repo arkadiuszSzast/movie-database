@@ -22,6 +22,7 @@ import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
+    public static final String AVATARS_URL = "/avatars/**";
     private static final String SIGN_UP_URL = "/api/users/sign-up";
     private static final String AUTH_REFRESH_URL = "/api/auth/refresh";
     private static final String LOGIN_URL = "/api/auth/login";
@@ -67,6 +68,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, CONFIRM_URL).permitAll()
                 .antMatchers(HttpMethod.POST, RESET_PASSWORD_URL).permitAll()
                 .antMatchers(HttpMethod.POST, RESET_PASSWORD_MAIL_URL).permitAll()
+                .antMatchers(HttpMethod.GET, AVATARS_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(getJwtAuthenticationFilter())
