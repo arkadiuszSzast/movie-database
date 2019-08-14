@@ -29,6 +29,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private static final String CONFIRM_URL = "/api/confirm";
     private static final String RESET_PASSWORD_MAIL_URL = "/api/reset-password/mail";
     private static final String RESET_PASSWORD_URL = "/api/reset-password";
+    private static final String MOVIES_URL = "/api/movies";
 
     private final AccessTokenProperties accessTokenProperties;
     private final RefreshTokenProperties refreshTokenProperties;
@@ -69,6 +70,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, RESET_PASSWORD_URL).permitAll()
                 .antMatchers(HttpMethod.POST, RESET_PASSWORD_MAIL_URL).permitAll()
                 .antMatchers(HttpMethod.GET, AVATARS_URL).permitAll()
+                .antMatchers(HttpMethod.GET, MOVIES_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(getJwtAuthenticationFilter())
