@@ -5,6 +5,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.movie.database.movie_database.support.properties.AccessTokenProperties;
 import com.movie.database.movie_database.user.ApplicationUserGetService;
 import com.movie.database.movie_database.user.token.blacklist.domain.TokenBlacklistRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,6 +20,8 @@ import java.io.IOException;
 import java.util.UUID;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
+
+    private final Logger log = LoggerFactory.getLogger(JWTAuthorizationFilter.class);
 
     private final AccessTokenProperties accessTokenProperties;
     private final TokenBlacklistRepository tokenBlacklistRepository;
@@ -50,6 +54,7 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             var applicationUser = applicationUserGetService.findById(UUID.fromString(userId));
             return new UsernamePasswordAuthenticationToken(applicationUser, null, applicationUser.getRoles());
         } catch (Exception e) {
+            log.warn("Unsuccessful authentication from address: " + request.getRemoteAddr());
             return null;
         }
     }

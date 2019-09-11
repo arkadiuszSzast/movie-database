@@ -22,7 +22,7 @@ public class MovieRate extends Identifiable {
     public MovieRate() {
     }
 
-    public MovieRate(double rate, ApplicationUser applicationUser, Movie movie) {
+    public MovieRate(ApplicationUser applicationUser, Movie movie, double rate) {
         this.rate = rate;
         this.applicationUser = applicationUser;
         this.movie = movie;
