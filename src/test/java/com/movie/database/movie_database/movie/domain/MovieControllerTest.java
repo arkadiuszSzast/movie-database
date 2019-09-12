@@ -3,7 +3,6 @@ package com.movie.database.movie_database.movie.domain;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.database.movie_database.movie.category.domain.Category;
-import com.movie.database.movie_database.utils.LogInProvider;
 import com.movie.database.movie_database.utils.MovieDbIntegrationTest;
 import com.movie.database.movie_database.utils.factories.MovieFactory;
 import io.restassured.http.ContentType;
@@ -22,9 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class MovieControllerTest {
 
     @Autowired
-    private LogInProvider logInProvider;
-
-    @Autowired
     private MovieFactory movieFactory;
 
     @LocalServerPort
@@ -34,16 +30,14 @@ class MovieControllerTest {
     @DisplayName("Should get list of movies")
     public void shouldGetListOfMovies() throws IOException {
 
-        var authToken = logInProvider.logInAsUser();
-
         var firstMovie = movieFactory
-                .withName("movieName")
+                .withTitle("movieName")
                 .withDescription("description")
                 .withCategories(List.of(new Category("Category")))
                 .createWithSave();
 
         var secondMovie = movieFactory
-                .withName("secondMovieName")
+                .withTitle("secondMovieName")
                 .withDescription("secondDescription")
                 .withCategories(List.of(new Category("Category")))
                 .createWithSave();
@@ -52,7 +46,6 @@ class MovieControllerTest {
                 .port(port)
                 .contentType(ContentType.JSON)
                 .when()
-                .header("Authorization", authToken)
                 .get("/api/movies")
                 .then()
                 .statusCode(200)
@@ -76,20 +69,4 @@ class MovieControllerTest {
         assertThat(movies.get(0).getCategories().get(0).getCategory()).isEqualTo("Category");
         assertThat(movies.get(1).getCategories().get(0).getCategory()).isEqualTo("Category");
     }
-
-    @Test
-    @DisplayName("Should 401 when getting movies without login")
-    public void shouldGet401WhenGettingMoviesListWithoutLogin() {
-
-        given()
-                .port(port)
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/api/movies")
-                .then()
-                .statusCode(401)
-                .extract()
-                .response();
-    }
-
 }

@@ -29,7 +29,7 @@ public class MovieFactory {
         return this;
     }
 
-    public MovieFactory withName(String title) {
+    public MovieFactory withTitle(String title) {
         this.title = title;
         return this;
     }

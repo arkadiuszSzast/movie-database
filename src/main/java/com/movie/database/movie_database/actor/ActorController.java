@@ -1,6 +1,7 @@
 package com.movie.database.movie_database.actor;
 
 import com.movie.database.movie_database.actor.domain.Actor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class ActorController {
 
     @PostMapping("/api/actors")
     @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
     public void addActor(@RequestBody Actor actor) {
         actorCreateService.create(actor);
     }

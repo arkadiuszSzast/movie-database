@@ -8,9 +8,12 @@ import com.movie.database.movie_database.user.domain.ApplicationUser;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.stream.DoubleStream;
 
 @Service
 public class MovieRateService {
+
+    private static final double ZERO = 0.0;
 
     private final ApplicationUserGetService applicationUserGetService;
     private final MovieGetService movieGetService;
@@ -37,6 +40,16 @@ public class MovieRateService {
 
     }
 
+    double getAverageRateByMovie(UUID movieId) {
+        var movie = movieGetService.getMovieById(movieId);
+        var rates = movieRateFindService.findAllRatesByMovie(movie);
+        return rates
+                .stream()
+                .flatMapToDouble(DoubleStream::of)
+                .average()
+                .orElse(ZERO);
+    }
+
     private void updateRate(MovieRate movieRate, double rate) {
         movieRateUpdateService.update(movieRate, rate);
     }
@@ -45,5 +58,4 @@ public class MovieRateService {
         var movieRate = new MovieRate(applicationUser, movie, rate);
         movieRateSaveService.save(movieRate);
     }
-
 }

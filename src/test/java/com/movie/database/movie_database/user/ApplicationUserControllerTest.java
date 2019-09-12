@@ -2,6 +2,7 @@ package com.movie.database.movie_database.user;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movie.database.movie_database.user.domain.ApplicationUser;
 import com.movie.database.movie_database.user.domain.ApplicationUserRepository;
@@ -164,6 +165,7 @@ public class ApplicationUserControllerTest {
                 .response();
 
         var mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         var list = (List<ApplicationUser>) mapper.readValue(response.asByteArray(), new TypeReference<List<ApplicationUser>>() {
         });
 
@@ -190,6 +192,25 @@ public class ApplicationUserControllerTest {
                 .get("/api/users")
                 .then()
                 .statusCode(403);
+    }
+
+    @Test
+    @DisplayName("Should return 404 deleting not existing application user when logged as admin")
+    public void shouldReturn404WhenDeletingNotExistingDirectorWhenLoggedAsAdmin() {
+        var authToken = logInProvider.logInAsAdmin();
+
+        given()
+                .port(port)
+                .contentType(ContentType.JSON)
+                .when()
+                .header("Authorization", authToken)
+                .delete("/api/users/" + UUID.randomUUID())
+                .then()
+                .statusCode(404);
+
+        var users = applicationUserRepository.findAll();
+
+        assertThat(users).hasSize(1);
     }
 
     @Test
@@ -227,6 +248,21 @@ public class ApplicationUserControllerTest {
     }
 
     @Test
+    @DisplayName("Should return 401 when removing application user without login")
+    public void shouldNotRemoveApplicationUserWhenNotLoggedIn() {
+        var userToRemove = userProvider.createActivatedUserWithoutAnyRole();
+
+        given()
+                .port(port)
+                .when()
+                .delete("/api/users/" + userToRemove.getId())
+                .then()
+                .statusCode(401);
+
+        assertThat(applicationUserRepository.findAll()).hasSize(1);
+    }
+
+    @Test
     @DisplayName("Should update roles of application user when logged as admin")
     public void shouldUpdateRolesOfApplicationUserWhenLoggedAsAdmin() {
         var authToken = logInProvider.logInAsAdmin();
@@ -246,7 +282,7 @@ public class ApplicationUserControllerTest {
     }
 
     @Test
-    @DisplayName("Should update roles of application user when logged as admin")
+    @DisplayName("Should return 403 when updating roles of application user as admin")
     public void shouldNotUpdateRolesOfApplicationUserWhenLoggedAsUser() {
         var authToken = logInProvider.logInAsUser();
         var userToUpdate = userProvider.createActivatedUserWithoutAnyRole();
@@ -262,6 +298,23 @@ public class ApplicationUserControllerTest {
                 .put("/api/users/" + userToUpdate.getId() + "/roles")
                 .then()
                 .statusCode(403);
+    }
+
+    @Test
+    @DisplayName("Should return 401 when updating roles of application user without login")
+    public void shouldReturn401WhenUpdatingRolesOfApplicationUserWithoutLogin() {
+        var userToUpdate = userProvider.createActivatedUserWithoutAnyRole();
+
+        var userRole = rolesProvider.createUserRole();
+
+        given()
+                .port(port)
+                .when()
+                .contentType(ContentType.JSON)
+                .body(List.of(userRole))
+                .put("/api/users/" + userToUpdate.getId() + "/roles")
+                .then()
+                .statusCode(401);
     }
 
     @Test

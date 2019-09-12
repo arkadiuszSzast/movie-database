@@ -1,6 +1,5 @@
 package com.movie.database.movie_database.movie.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;

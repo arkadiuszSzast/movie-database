@@ -13,7 +13,7 @@ public class DirectorCreateService {
         this.directorRepository = directorRepository;
     }
 
-    public void create(Director director) {
-        directorRepository.save(director);
+    public Director create(Director director) {
+        return directorRepository.save(director);
     }
 }

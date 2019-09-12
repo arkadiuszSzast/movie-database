@@ -1,6 +1,7 @@
 package com.movie.database.movie_database.movie.category;
 
 import com.movie.database.movie_database.movie.category.domain.Category;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class CategoryController {
 
     @PostMapping("/api/categories")
     @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
     public void addCategory(@RequestBody Category category) {
         categoryCreateService.create(category);
     }

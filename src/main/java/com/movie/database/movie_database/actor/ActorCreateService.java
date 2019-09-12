@@ -13,7 +13,7 @@ public class ActorCreateService {
         this.actorRepository = actorRepository;
     }
 
-    public void create(Actor actor) {
-        actorRepository.save(actor);
+    public Actor create(Actor actor) {
+        return actorRepository.save(actor);
     }
 }

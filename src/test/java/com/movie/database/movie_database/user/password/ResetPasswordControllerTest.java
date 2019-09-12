@@ -44,7 +44,7 @@ class ResetPasswordControllerTest {
                 .param("email", account.getEmail())
                 .post("/api/reset-password/mail")
                 .then()
-                .statusCode(200);
+                .statusCode(204);
 
         assertThat(applicationUserTokenRepository.findByApplicationUserAndTokenType(account, TokenType.RESET_PASSWORD)).isNotEmpty();
     }
@@ -78,7 +78,7 @@ class ResetPasswordControllerTest {
                 .param("email", account.getEmail())
                 .post("/api/reset-password/mail")
                 .then()
-                .statusCode(200);
+                .statusCode(204);
 
         var token = applicationUserTokenRepository.findByApplicationUserAndTokenType(account, TokenType.RESET_PASSWORD).get().getToken();
         var changedPassword = "changedPassword";
@@ -90,7 +90,7 @@ class ResetPasswordControllerTest {
                 .header("Reset-password-token", token)
                 .post("/api/reset-password")
                 .then()
-                .statusCode(200);
+                .statusCode(204);
 
         var accountAfterChangePassword = applicationUserGetService.findById(account.getId());
 

@@ -4,6 +4,7 @@ import com.movie.database.movie_database.movie.MovieCreateService;
 import com.movie.database.movie_database.movie.MovieDeleteService;
 import com.movie.database.movie_database.movie.MovieGetService;
 import com.movie.database.movie_database.movie.model.MovieRest;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class MovieController {
     }
 
     @PostMapping("/api/movies")
+    @ResponseStatus(HttpStatus.CREATED)
     public void addMovie(@RequestBody MovieRest movieRest) {
         movieCreateService.addMovie(movieRest);
     }

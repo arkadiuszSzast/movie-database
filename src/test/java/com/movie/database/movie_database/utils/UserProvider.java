@@ -6,6 +6,7 @@ import com.movie.database.movie_database.user.role.domain.Role;
 import com.movie.database.movie_database.user.role.domain.RoleRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.testcontainers.shaded.org.apache.commons.lang.RandomStringUtils;
 
 import java.util.List;
 
@@ -47,6 +48,17 @@ public class UserProvider {
         var savedAccount = createActivatedUser("emailWithoutRole@email.com", "noRole");
         savedAccount.setPassword("secretPassword");
         return savedAccount;
+    }
+
+    public ApplicationUser createRandomUserWithUserRole() {
+        var role = new Role("USER");
+        var savedRole = roleRepository.save(role);
+        var username = RandomStringUtils.random(10);
+        var savedAccount = createActivatedUser(username + "@email.com", username);
+        savedAccount.setRoles(List.of(savedRole));
+        var accountWithRole = applicationUserRepository.save(savedAccount);
+        accountWithRole.setPassword("secretPassword");
+        return accountWithRole;
     }
 
     private ApplicationUser createActivatedUser(String email, String username) {

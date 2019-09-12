@@ -28,7 +28,7 @@ public class LogInProvider {
         return jwtGenerateService.getRefreshToken(account.getId());
     }
 
-    private String logIn(ApplicationUser account) {
+    public String logIn(ApplicationUser account) {
         return jwtGenerateService.getAccessToken(account.getId());
     }
 }

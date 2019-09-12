@@ -1,6 +1,7 @@
 package com.movie.database.movie_database.director;
 
 import com.movie.database.movie_database.director.domain.Director;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,8 @@ public class DirectorController {
     }
 
     @PostMapping("/api/directors")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @ResponseStatus(HttpStatus.CREATED)
     public void addDirector(@RequestBody Director director) {
         directorCreateService.create(director);
     }

@@ -18,6 +18,8 @@ public class CleanDatabaseExtension implements BeforeEachCallback {
         getBean(context, JdbcTemplate.class).update("delete from application_user_role");
         getBean(context, JdbcTemplate.class).update("delete from application_user");
         getBean(context, JdbcTemplate.class).update("delete from role");
+        getBean(context, JdbcTemplate.class).update("delete from director");
+        getBean(context, JdbcTemplate.class).update("delete from actor");
     }
 
     private <T> T getBean(ExtensionContext context, Class<T> clazz) {

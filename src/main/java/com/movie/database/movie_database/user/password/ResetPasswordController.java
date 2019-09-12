@@ -19,11 +19,13 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/api/reset-password/mail")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void sendResetPasswordMail(@RequestParam String email) throws IOException {
         resetPasswordSendMailService.send(email);
     }
 
     @PostMapping("/api/reset-password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void resetPassword(@RequestParam String password,
                               @RequestHeader(name = "Reset-password-token") String resetPasswordToken) {
         resetPasswordService.reset(password, resetPasswordToken);

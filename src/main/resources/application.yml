@@ -8,7 +8,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   sendgrid:
-    api-key: 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
+    api-key: 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
   liquibase:
     drop-first: false
   servlet:
