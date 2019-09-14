@@ -1,5 +1,6 @@
 package com.movie.database.movie_database.movie;
 
+import com.movie.database.movie_database.movie.domain.Movie;
 import com.movie.database.movie_database.movie.domain.MovieRepository;
 import com.movie.database.movie_database.movie.model.MovieRest;
 import com.movie.database.movie_database.movie.model.MovieRestMapper;
@@ -16,8 +17,8 @@ public class MovieCreateService {
         this.movieRestMapper = movieRestMapper;
     }
 
-    public void addMovie(MovieRest movieRest) {
+    public Movie addMovie(MovieRest movieRest) {
         var movie = movieRestMapper.mapToDomain(movieRest);
-        movieRepository.save(movie);
+        return movieRepository.save(movie);
     }
 }
