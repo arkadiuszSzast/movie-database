@@ -28,7 +28,7 @@ public class MovieRateProvider {
     }
 
     private MovieRate createMovieRate(Movie movie, double rate) {
-        var user = userProvider.createRandomUserWithUserRole();
+        var user = userProvider.createRandomActivatedUserWithUserRole();
         return new MovieRate(user, movie, rate);
     }
 }

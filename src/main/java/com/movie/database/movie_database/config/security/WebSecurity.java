@@ -33,6 +33,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     private static final String MOVIE_RATE_URL = "/api/movie-rate";
     private static final String DIRECTORS = "/api/directors";
     private static final String ACTORS = "/api/actors";
+    private static final String CATEGORIES = "/api/categories";
 
     private final AccessTokenProperties accessTokenProperties;
     private final RefreshTokenProperties refreshTokenProperties;
@@ -77,6 +78,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, MOVIE_RATE_URL).permitAll()
                 .antMatchers(HttpMethod.GET, DIRECTORS).permitAll()
                 .antMatchers(HttpMethod.GET, ACTORS).permitAll()
+                .antMatchers(HttpMethod.GET, CATEGORIES).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(getJwtAuthenticationFilter())

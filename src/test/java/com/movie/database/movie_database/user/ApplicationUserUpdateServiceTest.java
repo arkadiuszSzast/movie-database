@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ApplicationUserUpdateServiceTest {
@@ -42,5 +42,18 @@ class ApplicationUserUpdateServiceTest {
 
         //assert
         assertThat(user.getRoles()).containsExactly(userRole, adminRole);
+    }
+
+    @Test
+    @DisplayName("Should update user")
+    public void shouldUpdateUser() {
+        //arrange
+        var user = new ApplicationUser("username", "password", "email@email.ca");
+
+        //act
+        applicationUserUpdateService.update(user);
+
+        //assert
+        verify(applicationUserRepository, times(1)).save(user);
     }
 }

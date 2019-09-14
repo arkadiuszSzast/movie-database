@@ -1,7 +1,6 @@
 recaptcha:
   testing:
     enabled: true
-
 spring:
   liquibase:
     drop-first: true
@@ -10,6 +9,13 @@ spring:
     url: jdbc:postgresql://${embedded.postgresql.host}:${embedded.postgresql.port}/${embedded.postgresql.schema}
     username: ${embedded.postgresql.user}
     password: ${embedded.postgresql.password}
+  servlet:
+    multipart:
+      max-file-size: 2MB
+
+file-storage:
+  location: ./avatars
+  allowed-extensions: jpg
 
 security:
   access-token:
@@ -20,3 +26,8 @@ security:
     expiration-time: 900000
     secret: j6EMM6EMYFeMXfEPVnx5rgKm7xWxb77U
     header-name: Refresh-token
+
+movie-db:
+  mail-sender: test@example.com
+  application-url: http://localhost:8080
+  frontend-url: http://localhost:4200

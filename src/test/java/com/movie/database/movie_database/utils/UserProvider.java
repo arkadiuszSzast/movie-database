@@ -25,49 +25,61 @@ public class UserProvider {
     }
 
     public ApplicationUser createActivatedUserWithAdminRole() {
-        var role = new Role("ADMIN");
-        var savedRole = roleRepository.save(role);
-        var savedAccount = createActivatedUser("emailWithAdminRole@email.com", "admin");
-        savedAccount.setRoles(List.of(savedRole));
+        var role = createRole("ADMIN");
+        var savedAccount = createUser("emailWithAdminRole@email.com", "admin", true);
+        savedAccount.setRoles(List.of(role));
         var accountWithRole = applicationUserRepository.save(savedAccount);
         accountWithRole.setPassword("secretPassword");
         return accountWithRole;
     }
 
     public ApplicationUser createActivatedUserWithUserRole() {
-        var role = new Role("USER");
-        var savedRole = roleRepository.save(role);
-        var savedAccount = createActivatedUser("emailWithUserRole@email.com", "user");
-        savedAccount.setRoles(List.of(savedRole));
+        var role = createRole("USER");
+        var savedAccount = createUser("emailWithUserRole@email.com", "user", true);
+        savedAccount.setRoles(List.of(role));
         var accountWithRole = applicationUserRepository.save(savedAccount);
         accountWithRole.setPassword("secretPassword");
         return accountWithRole;
     }
 
     public ApplicationUser createActivatedUserWithoutAnyRole() {
-        var savedAccount = createActivatedUser("emailWithoutRole@email.com", "noRole");
+        var savedAccount = createUser("emailWithoutRole@email.com", "noRole", true);
         savedAccount.setPassword("secretPassword");
         return savedAccount;
     }
 
-    public ApplicationUser createRandomUserWithUserRole() {
-        var role = new Role("USER");
-        var savedRole = roleRepository.save(role);
+    public ApplicationUser createRandomActivatedUserWithUserRole() {
+        var role = createRole("USER");
         var username = RandomStringUtils.random(10);
-        var savedAccount = createActivatedUser(username + "@email.com", username);
-        savedAccount.setRoles(List.of(savedRole));
+        var savedAccount = createUser(username + "@email.com", username, true);
+        savedAccount.setRoles(List.of(role));
         var accountWithRole = applicationUserRepository.save(savedAccount);
         accountWithRole.setPassword("secretPassword");
         return accountWithRole;
     }
 
-    private ApplicationUser createActivatedUser(String email, String username) {
+    public ApplicationUser createRandomInactivUser() {
+        var role = createRole("USER");
+        var username = RandomStringUtils.random(10);
+        var savedAccount = createUser(username + "@email.com", username, false);
+        savedAccount.setRoles(List.of(role));
+        var accountWithRole = applicationUserRepository.save(savedAccount);
+        accountWithRole.setPassword("secretPassword");
+        return accountWithRole;
+    }
+
+    private Role createRole(String user) {
+        var role = new Role(user);
+        return roleRepository.save(role);
+    }
+
+    private ApplicationUser createUser(String email, String username, boolean isActivated) {
         var account = new ApplicationUser(username, "secretPassword", email);
         var encryptedPassword = bCryptPasswordEncoder.encode(account.getPassword());
         account.setPassword(encryptedPassword);
         applicationUserRepository.save(account);
         var addedAccount = applicationUserRepository.findByUsername(account.getUsername()).get();
-        addedAccount.setActive(true);
+        addedAccount.setActive(isActivated);
         return applicationUserRepository.save(addedAccount);
     }
 }

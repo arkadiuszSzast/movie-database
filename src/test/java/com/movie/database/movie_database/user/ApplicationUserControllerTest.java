@@ -131,6 +131,30 @@ public class ApplicationUserControllerTest {
     }
 
     @Test
+    @DisplayName("Should not be able to do any action using blacklisted token")
+    public void shouldNotBeAbleToDoAnyActionUsingBlacklistedToken() {
+        var account = userProvider.createActivatedUserWithAdminRole();
+        var authToken = logInProvider.logIn(account);
+
+        given()
+                .port(port)
+                .when()
+                .header("Authorization", authToken)
+                .post("/api/auth/logout")
+                .then()
+                .statusCode(200);
+
+        given()
+                .port(port)
+                .when()
+                .header("Authorization", authToken)
+                .get("/api/users")
+                .then()
+                .statusCode(401);
+
+    }
+
+    @Test
     @DisplayName("Should not add token to blacklist when user is not log in")
     public void shouldNotAddTokenToBlacklistWhenUserNotLogIn() {
         var authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";

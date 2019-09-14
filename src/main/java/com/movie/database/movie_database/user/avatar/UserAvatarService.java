@@ -45,7 +45,7 @@ public class UserAvatarService implements StorageService {
     private Path getPathToAvatar() {
         var location = fileStorageProperties.getLocation();
         var filename = UUID.randomUUID().toString();
-        return Path.of(location + filename);
+        return Path.of(location).resolve(filename);
     }
 
     private void removeOldAvatar(ApplicationUser user) {
@@ -55,7 +55,7 @@ public class UserAvatarService implements StorageService {
     private Consumer<String> removeOldAvatar() {
         return filename -> {
             try {
-                Files.deleteIfExists(Path.of(fileStorageProperties.getLocation() + filename));
+                Files.deleteIfExists(Path.of(fileStorageProperties.getLocation()).resolve(filename));
             } catch (IOException e) {
                 log.error("Failed to remove old avatar, uri: {}", filename);
             }

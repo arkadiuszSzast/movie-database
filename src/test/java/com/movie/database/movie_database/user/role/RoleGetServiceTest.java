@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.management.relation.RoleNotFoundException;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,6 +49,33 @@ class RoleGetServiceTest {
 
         //act && assert
         assertThrows(RoleNotFoundException.class, () -> roleGetService.getUserRole());
+    }
+
+    @Test
+    @DisplayName("Should return list of all roles")
+    public void shouldReturnListOfAllRoles() {
+        //arrange
+        var roles = List.of(new Role("User"), new Role("ADMIN"));
+        when(roleRepository.findAll()).thenReturn(roles);
+
+        //act
+        var result = roleGetService.getRoles();
+
+        //assert
+        assertThat(result).containsAll(roles);
+    }
+
+    @Test
+    @DisplayName("Should return empty list when not role found")
+    public void shouldReturnEmptyListWhenNoRoleFound() {
+        //arrange
+        when(roleRepository.findAll()).thenReturn(List.of());
+
+        //act
+        var result = roleGetService.getRoles();
+
+        //assert
+        assertThat(result).isEmpty();
     }
 
 

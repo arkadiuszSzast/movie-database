@@ -1,11 +1,12 @@
 package com.movie.database.movie_database.user.confirmation;
 
 import com.movie.database.movie_database.support.properties.MovieDbProperties;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletResponse;
+import java.net.URI;
 
 @RestController
 public class ConfirmationController {
@@ -20,9 +21,10 @@ public class ConfirmationController {
     }
 
     @GetMapping("/api/confirm")
-    public void confirmApplicationUser(@RequestParam String token, HttpServletResponse httpServletResponse) {
+    public ResponseEntity<Object> confirmApplicationUser(@RequestParam String token) {
         applicationUserConfirmationService.confirm(token);
-        httpServletResponse.setHeader("Location", movieDbProperties.getFrontendUrl() + "/confirmed");
-        httpServletResponse.setStatus(302);
+        return ResponseEntity.ok()
+                .location(URI.create(movieDbProperties.getFrontendUrl() + "/confirmed"))
+                .build();
     }
 }

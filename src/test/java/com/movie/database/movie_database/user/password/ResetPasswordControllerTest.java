@@ -95,6 +95,5 @@ class ResetPasswordControllerTest {
         var accountAfterChangePassword = applicationUserGetService.findById(account.getId());
 
         assertThat(bCryptPasswordEncoder.matches(changedPassword, accountAfterChangePassword.getPassword())).isTrue();
-
     }
 }

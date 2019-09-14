@@ -13,7 +13,7 @@ public class CategoryCreateService {
         this.categoryRepository = categoryRepository;
     }
 
-    public void create(Category category) {
-        categoryRepository.save(category);
+    public Category create(Category category) {
+        return categoryRepository.save(category);
     }
 }

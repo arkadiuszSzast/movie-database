@@ -14,4 +14,8 @@ public class RolesProvider {
     public Role createUserRole() {
         return roleRepository.save(new Role("USER"));
     }
+
+    public Role createAdminRole() {
+        return roleRepository.save(new Role("ADMIN"));
+    }
 }
