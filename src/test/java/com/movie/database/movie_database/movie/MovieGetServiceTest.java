@@ -5,7 +5,9 @@ import com.movie.database.movie_database.director.domain.Director;
 import com.movie.database.movie_database.movie.category.domain.Category;
 import com.movie.database.movie_database.movie.domain.Movie;
 import com.movie.database.movie_database.movie.domain.MovieRepository;
+import com.movie.database.movie_database.movie.domain.MovieSpecification;
 import com.movie.database.movie_database.movie.exception.MovieNotFoundException;
+import com.movie.database.movie_database.movie.model.MovieFilter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +21,7 @@ import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -26,6 +29,8 @@ class MovieGetServiceTest {
 
     @Mock
     private MovieRepository movieRepository;
+    @Mock
+    private MovieFilter movieFilter;
     @InjectMocks
     private MovieGetService movieGetService;
 
@@ -40,7 +45,6 @@ class MovieGetServiceTest {
         directors.forEach(director -> director.setId(UUID.randomUUID()));
         var actors = List.of(new Actor("actor_name", "actor_surname"), new Actor("actor_name2", "actor_surname2"));
         actors.forEach(actor -> actor.setId(UUID.randomUUID()));
-        ;
         var movie = new Movie("title", "description", categories, actors, directors);
         when(movieRepository.findById(movieId)).thenReturn(Optional.of(movie));
 
@@ -72,13 +76,12 @@ class MovieGetServiceTest {
         directors.forEach(director -> director.setId(UUID.randomUUID()));
         var actors = List.of(new Actor("actor_name", "actor_surname"), new Actor("actor_name2", "actor_surname2"));
         actors.forEach(actor -> actor.setId(UUID.randomUUID()));
-        ;
         var movie = new Movie("title", "description", categories, actors, directors);
         var movies = List.of(movie);
-        when(movieRepository.findAll()).thenReturn(movies);
+        when(movieRepository.findAll(any(MovieSpecification.class))).thenReturn(movies);
 
         //act
-        var result = movieGetService.getMovies();
+        var result = movieGetService.getMovies(movieFilter);
 
         //assert
         assertThat(result).usingFieldByFieldElementComparator().containsAll(movies);

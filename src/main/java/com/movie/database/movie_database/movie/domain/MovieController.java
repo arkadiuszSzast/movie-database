@@ -3,8 +3,10 @@ package com.movie.database.movie_database.movie.domain;
 import com.movie.database.movie_database.movie.MovieCreateService;
 import com.movie.database.movie_database.movie.MovieDeleteService;
 import com.movie.database.movie_database.movie.MovieGetService;
+import com.movie.database.movie_database.movie.model.MovieFilter;
 import com.movie.database.movie_database.movie.model.MovieRest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,17 +26,19 @@ public class MovieController {
     }
 
     @GetMapping("/api/movies")
-    public List<Movie> getMovies() {
-        return movieGetService.getMovies();
+    public List<Movie> getMovies(MovieFilter movieFilter) {
+        return movieGetService.getMovies(movieFilter);
     }
 
     @PostMapping("/api/movies")
     @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void addMovie(@RequestBody MovieRest movieRest) {
         movieCreateService.addMovie(movieRest);
     }
 
     @DeleteMapping("/api/movies/{movieId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public void deleteMovie(@PathVariable UUID movieId) {
         movieDeleteService.delete(movieId);
     }
