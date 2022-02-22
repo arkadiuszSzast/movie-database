@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1_0_1
+      author: arkadiusz.szast
+      changes:
+        - createTable:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: role
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 1_0_2
+      author: arkadiusz.szast
+      changes:
+        - createTable:
+            tableName: application_user_role
+            columns:
+              - column:
+                  name: role
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_role
+                    references: role(id)
+              - column:
+                  name: application_user
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_application_user
+                    references: application_user(id)
+  - changeSet:
+      id: 1_0_3
+      author: arkadiusz.szast
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  value: 87a1ffc5-f381-4d37-849b-c836358a4c9b
+              - column:
+                  name: role
+                  value: "ADMIN"
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  value: b96b0108-6ce3-4a01-a37e-edea083be890
+              - column:
+                  name: role
+                  value: "USER"
+
+

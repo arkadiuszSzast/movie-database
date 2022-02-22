@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1_0_6
+      author: arkadiusz.szast
+      changes:
+        - createTable:
+            tableName: category
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: category
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

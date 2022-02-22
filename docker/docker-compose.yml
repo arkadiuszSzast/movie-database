@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+
+  movie-service-db:
+    image: postgres
+    container_name: movie-service-db
+    environment:
+      - POSTGRES_DB=movie-database
+      - POSTGRES_USER=movie_user
+      - POSTGRES_PASSWORD=z8BFsHAQ4dGrm8R12SQCoTvG
+    ports:
+      - 5432:5432
+    networks:
+      books-tracker-net:
+        aliases:
+          - books-tracker-db
+
+  movie-service:
+    image: szastarek/movie-service:1.2
+    container_name: books-tracker
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://movie-service-db:5432/movie-database
+    ports:
+      - 8080:8080
+    depends_on:
+      - books-tracker-db
+    restart: on-failure
+    networks:
+      books-tracker-net:
+        aliases:
+          - books-tracker
+
+networks:
+  books-tracker-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.6.0.0/16

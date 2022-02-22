@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1_0_5
+      author: arkadiusz.szast
+      changes:
+        - createTable:
+            tableName: movie
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

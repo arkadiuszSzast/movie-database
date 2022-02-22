@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1_0_9
+      author: arkadiusz.szast
+      changes:
+        - createTable:
+            tableName: application_user_movie
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: application_user
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_application_user
+                    references: application_user(id)
+              - column:
+                  name: movie
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_movie
+                    references: movie(id)

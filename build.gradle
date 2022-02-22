@@ -23,6 +23,8 @@ dependencies {
     implementation 'org.hibernate.validator:hibernate-validator:6.0.16.Final'
     implementation 'com.sendgrid:sendgrid-java:4.4.1'
     implementation 'org.apache.commons:commons-lang3:3.9'
+    compile 'io.springfox:springfox-swagger-ui:2.7.0'
+    compile 'io.springfox:springfox-swagger2:2.7.0'
     runtimeOnly 'org.postgresql:postgresql'
 
     testImplementation 'io.rest-assured:spring-mock-mvc:3.2.0'

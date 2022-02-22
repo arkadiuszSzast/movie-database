@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1_0_4
+      author: arkadiusz.szast
+      changes:
+        - createTable:
+            tableName: application_user_token
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: application_user
+                  type: UUID
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_application_user
+                    references: application_user(id)
+              - column:
+                  name: token
+                  type: varchar(255)
+                  constraints:
+                    nullable: false,
+                    unique: true
+              - column:
+                  name: token_type
+                  type: varchar(255)
+                  constraints:
+                    nullable: false,
+
